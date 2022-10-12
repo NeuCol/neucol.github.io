@@ -1,0 +1,18 @@
+# Add publications here
+#
+
+- author:
+  - name: Dubey, Anshu
+  citekey: dubey2021insights
+  collection: papers
+  id: dubey2021insights
+  journal:
+    name: Computing in Science & Engineering
+    number: '3'
+    pages: 92--95
+    volume: '23'
+  title: Insights From the Software Design of a Multiphysics Multicomponent Scientific
+    Code
+  type: article
+  year: '2021'
+
