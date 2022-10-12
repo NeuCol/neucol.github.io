@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Next-Generation Precision for Neutrino and Collider Computations
+title: NeuCol: Next-Generation Precision for Neutrino and Collider Computations
 subtitle: A SciDAC-5 Project
 ---
 The connection between particle physics theory and experiment hinges on the simulation of
