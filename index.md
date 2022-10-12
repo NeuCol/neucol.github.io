@@ -1,7 +1,7 @@
 ---
 layout: page
 title: NeuCol Next-Generation Precision for Neutrino and Collider Computations
-subtitle: A SciDAC-5 Project
+subtitle: A [SciDAC-5](https://scidac.gov/) Project
 ---
 The connection between particle physics theory and experiment hinges on the simulation of
 detector events by means of Monte-Carlo methods. Event generators are
