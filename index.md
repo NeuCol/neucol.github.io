@@ -31,12 +31,6 @@ generators. Guided by the known matching and merging algorithms in collider phys
 project will explore various possibilities to extend the current classical cascade models in neu-
 trino event generators to a partial quantum cascade, for which computational efficiency is an
 essential prerequisite.
-
-
-
-#Core-collapse Supernova and Gravity Effects on Pool Boiling.
-
-
                                                                   
                                                                   
 # Code of Conduct
