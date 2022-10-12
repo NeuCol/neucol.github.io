@@ -33,18 +33,9 @@ trino event generators to a partial quantum cascade, for which computational eff
 essential prerequisite.
 
 
-<h2>Events </h2>
 
 #Core-collapse Supernova and Gravity Effects on Pool Boiling.
 
-#<div class="custom-row">
-# <div class="custom-boiling">
- # <img src="{{site.baseurl | prepend: site.url}}/assets/img/d96_3d3d_after.jpg" style="width:100%">
-# </div>
-# <div class="custom-boiling">
- # <img src="{{site.baseurl | prepend: site.url}}/assets/img/boiling_lowg.gif" style="width:100%">
-# </div>
-# </div>
 
                                                                   
                                                                   
