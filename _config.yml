@@ -13,7 +13,7 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: MM
+title: Neutrinos
 email:
 description: >- # this means to ignore newlines until "baseurl:"
   Write an awesome description for your new site here. You can edit this
@@ -58,7 +58,7 @@ plugins:
   - jekyll-include-cache
 
 author:
-  name   : "First Lastname"
+  name   : "neutrino collaboration"
   avatar : "/assets/images/bio-photo.jpg"
   bio    : "My awesome biography constrained to a sentence or two goes here."
   links:
@@ -75,6 +75,25 @@ author:
       icon: "fab fa-fw fa-instagram"
       url: "https://instagram.com/"
 
+navbar-links:
+  News and Events:
+     - News: "pages/news"
+     - Events: "pages/events"
+  The Code:
+     - Source: "pages/source-code"
+     - Documentation: "pages/documentation" 
+     - Contribute: "pages/contribute"
+  The Organization:
+     - Council: "pages/council"
+     - Members: "pages/members"
+     - Contact: "pages/contact"
+  Research:
+     - Exastar: "https://sites.google.com/lbl.gov/exastar"
+     - Fluid Dynamics: "pages/fluids"
+     - Publications: "pages/publications"
+     - Movies: "pages/movies"
+
+
 footer:
   links:
     - label: "Twitter"
@@ -82,7 +101,7 @@ footer:
       url: "https://twitter.com/"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/"
+      url: "https:///"
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
       url: "https://instagram.com/"
