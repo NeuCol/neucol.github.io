@@ -1,7 +1,7 @@
 ---
 layout: page
-title: NeuCol Next-Generation Precision for Neutrino and Collider Computations
-subtitle: A [SciDAC-5](https://scidac.gov/) Project
+title: NeuCol -- Next-Generation Precision for Neutrino and Collider Computations
+subtitle: A SciDAC-5 Project
 ---
 The connection between particle physics theory and experiment hinges on the simulation of
 detector events by means of Monte-Carlo methods. Event generators are
@@ -27,9 +27,14 @@ heterogeneous systems. First applications will be a novel theory-driven event ge
 the DUNE experiment, and the Monte Carlo for FeMtobarn processes (MCFM) for the LHC.
 This will serve as a blueprint for particle-level event generators and automated matrix-element
 generators. Guided by the known matching and merging algorithms in collider physics, the
-project will explore various possibilities to extend the current classical cascade models in neu-
-trino event generators to a partial quantum cascade, for which computational efficiency is an
+project will explore various possibilities to extend the current classical cascade models in neutrino event generators to a partial quantum cascade, for which computational efficiency is an
 essential prerequisite.
+
+We build on capabilities in the [FASTMath](https://scidac5-fastmath.lbl.gov) and [RAPIDS](https://rapids.lbl.gov/) SciDAC Institutes.
+
+
+NeuCol is grateful to be supported by the U.S. Department of Energy, Office of Science, Office of Advanced Scientific Computing Research and Office of High-Energy Physics, [Scientific Discovery through Advanced Computing (SciDAC)](https://scidac.gov/) program under contracts DE-AC02-06CH11357 ([Argonne](https://www.anl.gov/)), DE-AC02-07CH11359 ([Fermilab](https://www.fnal.gov/)), and DE-AC05-00OR22725 ([Oak Ridge](https://www.ornl.gov/)).
+
                                                                   
                                                                   
 # Code of Conduct
