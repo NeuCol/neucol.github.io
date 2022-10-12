@@ -4,6 +4,8 @@ title: Members of the Project
 subtitle: 
 ---
 
+![Rocco](../assets/images/rocco.jpg){: width="120" }
+
 <img src="../assets/images/rocco.jpg" alt="Rocco" title="Rocco" width="120"/> [Noemi Rocco](https://inspirehep.net/authors/1280460): PI - Associate Scientist, FNAL
 
 <img src="../assets/images/campbell.gif" alt="Campbell" title="Campbell" width="120"/> [John Campbell](https://inspirehep.net/authors/1014644): Senior Scientist, FNAL
