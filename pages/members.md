@@ -24,6 +24,8 @@ subtitle:
 
 ![Lovato](../assets/images/lovato.jpg){: width="120" } [Alessandro Lovato](https://www.anl.gov/profile/alessandro-lovato): Physicist, ANL
 
+![Ngom](../assets/images/ngom.jpg){: width="120" } [Marieme Ngom](https://www.anl.gov/profile/marieme-ngom): Postdoctoral Researcher, ANL
+
 ![O'Neal](../assets/images/oneal.jpg){: width="120" } [Jared O'Neal](https://www.anl.gov/profile/jared-p-o-neal): Software Development Specialist, ANL
 
 ![Wild](../assets/images/wild.jpg){: width="120" } [Stefan M. Wild](https://wildsm.github.io/): Senior Computational Mathematician, ANL
