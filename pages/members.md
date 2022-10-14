@@ -18,7 +18,7 @@ subtitle:
 
 ![Hovland](../assets/images/hovland.jpg){: width="120" } [Paul Hovland](https://www.anl.gov/profile/paul-hovland): Senior Computer Scientist, ANL
 
-![Isaacson](../assets/images/isaacson.jpg){: width="120" } [Joshua Isaacson](https://inspirehep.net/authors/1410753): Research Associate, FNAL
+![Isaacson](../assets/images/isaacson.jpg){: width="120" } [Joshua Isaacson](https://inspirehep.net/authors/1410753): Application Physicist I, FNAL
 
 ![Lee](../assets/images/lee.png){: width="120" } [Seyong Lee](https://ft.ornl.gov/~lees2/): ORNL PI - Senior Computer Scientist, ORNL
 
