@@ -10,7 +10,7 @@ subtitle:
 
 ![Childers](../assets/images/childers.jpg){: width="120" } [J. Taylor Childers](http://www.jtchilders.com): Computational Scientist, ANL
 
-![Dubey](../assets/images/dubey.png){: width="120" } [Anshu Dubey](https://www.anl.gov/profile/anshu-dubey): ANL PI - Computational Scientist, ANL
+![Dubey](../assets/images/dubey.png){: width="120" } [Anshu Dubey](https://www.anl.gov/profile/anshu-dubey): ANL PI - Senior Computational Scientist, ANL
 
 ![Graziani](../assets/images/graziani.jpg){: width="120" } [Carlo Graziani](https://www.anl.gov/profile/carlo-j-graziani):  Computational Scientist, ANL
 
