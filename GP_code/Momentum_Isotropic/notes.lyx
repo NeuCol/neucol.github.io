@@ -1,0 +1,755 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass scrartcl
+\begin_preamble
+%\usepackage{pslatex}
+\usepackage[T1]{fontenc}
+\usepackage{newtxtext}
+\usepackage[libertine]{newtxmath}
+\usepackage{bm}
+\newcommand{\flash}{{\tt FLASH}}
+\newcommand{\btimes}{\bm{\times}}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\end_preamble
+\use_default_options true
+\begin_modules
+theorems-ams
+eqs-within-sections
+figs-within-sections
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement t
+\paperfontsize 10
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize letterpaper
+\use_geometry true
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 0
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine biblatex
+\cite_engine_type authoryear
+\biblio_options sorting=none
+\biblatex_bibstyle numeric
+\biblatex_citestyle numeric
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1in
+\topmargin 1in
+\rightmargin 1in
+\bottommargin 1in
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip medskip
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Notes on Kernels for Normalized Functions
+\end_layout
+
+\begin_layout Author
+Carlo Graziani
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+Suppose that we want a GP model for a function 
+\begin_inset Formula $n(k)$
+\end_inset
+
+ that satisfies a momentum-space normalization of the type
+\begin_inset Formula 
+\[
+\int_{0}^{\infty}\frac{4\pi dk}{(2\pi)^{3}}\,k^{2}n(k)=N
+\]
+
+\end_inset
+
+or, in general
+\begin_inset Formula 
+\[
+\int_{0}^{\infty}dk\,k^{2}n(k)=A
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $A=2\pi^{2}N$
+\end_inset
+
+.
+ If we have some data on 
+\begin_inset Formula $n(k)$
+\end_inset
+
+, we could fit a vanilla GP to it, but there would be no guarantee that
+ any function that one sampled from it would satisfy the normalization condition.
+\end_layout
+
+\begin_layout Standard
+Instead, suppose we start from a zero-mean GP with base covariance kernel
+ 
+\begin_inset Formula $\left\langle n(k_{1})n(k_{2})\right\rangle =C(k_{1},k_{2})$
+\end_inset
+
+.
+ We can proceed by updating this kernel based on a zero-noise observation
+ of the normalization integral
+\begin_inset Formula 
+\begin{equation}
+I[n(\cdot)]\equiv\int_{0}^{\infty}dk\,k^{2}n(k).\label{eq:Norm_Integral}
+\end{equation}
+
+\end_inset
+
+The required covariance relations are
+\begin_inset Formula 
+\begin{eqnarray}
+\left\langle I\times n(k_{1})\right\rangle  & = & \int_{0}^{\infty}dk_{2}\,k_{2}^{2}\left\langle n(k_{2})n(k_{1})\right\rangle \nonumber \\
+ & = & \int_{0}^{\infty}dk_{2}\,k_{2}^{2}\times C(k_{1,}k_{2})\nonumber \\
+ & \equiv & C_{1}(k_{1}),\label{eq:C_1}\\
+\left\langle I^{2}\right\rangle  & = & \int_{0}^{\infty}dk_{1}\,k_{1}^{2}\int_{0}^{\infty}dk_{2}\,k_{2}^{2}\left\langle n(k_{2})n(k_{1})\right\rangle \nonumber \\
+ & = & \int_{0}^{\infty}dk_{1}\,\int_{0}^{\infty}dk_{2}\,k_{1}^{2}k_{2}^{2}C(k_{1,}k_{2})\nonumber \\
+ & \equiv & C_{0}.\label{eq:C_2}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Given a choice of 
+\begin_inset Formula $C(\cdot,\cdot)$
+\end_inset
+
+ that permits these integrals to be computed, the updated GP conditioned
+ on the observation 
+\begin_inset Formula $I[n(\cdot)]=A$
+\end_inset
+
+ has a non-zero mean function 
+\begin_inset Formula $\mu(k)$
+\end_inset
+
+ given by the standard formula
+\begin_inset Formula 
+\begin{equation}
+\mu(k)=C_{1}(k)\times C_{0}^{-1}\times A,\label{eq:mu}
+\end{equation}
+
+\end_inset
+
+and a covariance kernel 
+\begin_inset Formula $K(k_{1},k_{2})$
+\end_inset
+
+ given by the equally-standard formula
+\begin_inset Formula 
+\begin{equation}
+K(k_{1},k_{2})=C(k_{1},k_{2})-C_{1}(k_{1})C_{0}^{-1}C_{1}(k_{2}).\label{eq:K}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that 
+\begin_inset Formula $\int_{0}^{\infty}dk\,\mu(k)=C_{0}C_{0}^{-1}A=A$
+\end_inset
+
+, and functions 
+\begin_inset Formula $n(k)$
+\end_inset
+
+ sampled from 
+\begin_inset Formula $GP\left[\mu(\cdot),K(\cdot,\cdot)\right]$
+\end_inset
+
+ have normalizations 
+\begin_inset Formula $I[n(\cdot)]$
+\end_inset
+
+ that satisfy 
+\begin_inset Formula $\left\langle I^{2}\right\rangle =\int_{0}^{\infty}dk_{1}\,\int_{0}^{\infty}dk_{2}\,k_{1}^{2}k_{2}^{2}K(k_{1},k_{2})=C_{0}-C_{0}=0$
+\end_inset
+
+.
+ So 
+\begin_inset Formula $I$
+\end_inset
+
+ is fixed at its mean value 
+\begin_inset Formula $A$
+\end_inset
+
+ with zero uncertainty.
+ In effect, Equation (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:K"
+
+\end_inset
+
+) shows that 
+\begin_inset Formula $K(\cdot,\cdot)$
+\end_inset
+
+ is just 
+\begin_inset Formula $C(\cdot,\cdot)$
+\end_inset
+
+ with the function 
+\begin_inset Formula $C_{1}(k)$
+\end_inset
+
+ projected out, so that it has a zero eigenvalue corresponding to this eigenfunc
+tion.
+\end_layout
+
+\begin_layout Standard
+In order for this to work, the integrals in Equations (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:C_1"
+
+\end_inset
+
+) and (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:C_2"
+
+\end_inset
+
+) must exist.
+ This is awkward, because it precludes us from choosing a stationary kernel
+ 
+\begin_inset Formula $C(k_{1},k_{2})=g(k_{1}-k_{2})$
+\end_inset
+
+, for which the integral in Equation (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:C_2"
+
+\end_inset
+
+) diverges.
+ This divergence is expected, because a stationary kernel choice in effect
+ asserts that the statistical behavior of the function is the same throughout
+ 
+\begin_inset Formula $\mathbb{R}$
+\end_inset
+
+, whereas any function possessing a finite normalization integral in Equation
+ (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Norm_Integral"
+
+\end_inset
+
+) must necessarily go to zero faster than 
+\begin_inset Formula $k^{-1}$
+\end_inset
+
+ as 
+\begin_inset Formula $k\rightarrow\infty$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Fortunately, we can conveniently taper covariance kernels such as 
+\begin_inset Formula $g(k_{1}-k_{2})$
+\end_inset
+
+ using a rapidly-decaying function 
+\begin_inset Formula $f(k)$
+\end_inset
+
+, so that 
+\begin_inset Formula $C(k_{1},k_{2})=f(k_{1})g(k_{1}-k_{2})f(k_{2})$
+\end_inset
+
+—such a kernel is obviously non-negative definite if 
+\begin_inset Formula $g(k_{1}-k_{2})$
+\end_inset
+
+ is non-negative definite.
+ This gives hope that we can locate some kernel models for which the required
+ integrals are doable.
+\end_layout
+
+\begin_layout Section
+A Proof-of-Concept Kernel
+\end_layout
+
+\begin_layout Standard
+Let us begin with the popular squared-exponential kernel 
+\begin_inset Formula 
+\begin{equation}
+g(k_{1}-k_{2})=\exp\left[-\frac{(k_{1}-k_{2})^{2}}{\sigma^{2}}\right],\label{eq:SE_Kernel}
+\end{equation}
+
+\end_inset
+
+and taper it using Gaussians, i.e.
+\begin_inset Formula 
+\begin{equation}
+f(k)=\exp\left[-\frac{k^{2}}{\gamma^{2}}\right],\label{eq:Gaussian_Taper}
+\end{equation}
+
+\end_inset
+
+so that our covariance model will be
+\begin_inset Formula 
+\begin{eqnarray}
+C(k_{1},k_{2}) & = & f(k_{1})g(k_{1}-k_{2})f(k_{2})\nonumber \\
+ & = & \exp\left[-k^{T}Pk\right],\label{eq:Tapered_Kernel}
+\end{eqnarray}
+
+\end_inset
+
+where we define 
+\begin_inset Formula $k^{T}\equiv\left[\begin{array}{cc}
+k_{1} & k_{2}\end{array}\right]$
+\end_inset
+
+ and
+\begin_inset Formula 
+\begin{eqnarray}
+P & \equiv & \left[\begin{array}{cc}
+a & b\\
+b & a
+\end{array}\right],\label{eq:P_mat}
+\end{eqnarray}
+
+\end_inset
+
+with
+\begin_inset Formula 
+\begin{eqnarray}
+a & \equiv & \sigma^{-2}+\gamma^{-2}\label{eq:a}\\
+b & \equiv & -\sigma^{-2}.\label{eq:b}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The required integral 
+\begin_inset Formula $C_{1}(k_{1})$
+\end_inset
+
+ is given by
+\begin_inset Formula 
+\begin{eqnarray}
+C_{1}(k_{1}) & = & \int_{0}^{\infty}dk_{2}\,k_{2}^{2}\exp\left[-k^{T}Pk\right]\nonumber \\
+ & = & \int_{0}^{\infty}dk_{2}\,k_{2}^{2}\exp\left[-\left(ak_{1}^{2}+2bk_{1}k_{2}+ak_{2}^{2}\right)\right]\nonumber \\
+ & = & \int_{0}^{\infty}dk_{2}\,k_{2}^{2}\exp\left[-a\left(k_{2}+bk_{1}/a\right)^{2}-a\left(1-b^{2}/a^{2}\right)k_{1}^{2}\right]\nonumber \\
+ & = & \exp\left[-a\left(1-b^{2}/a^{2}\right)k_{1}^{2}\right]a^{-3/2}\int_{a^{-1/2}bk_{1}}^{\infty}ds\,\left(s-a^{-1/2}bk_{1}\right)^{2}\exp\left[-s^{2}\right]\nonumber \\
+ & = & \exp\left[-a\left(1-b^{2}/a^{2}\right)k_{1}^{2}\right]a^{-3/2}\int_{a^{-1/2}bk_{1}}^{\infty}ds\,\left(s^{2}-2a^{-1/2}bk_{1}s+a^{-1}b^{2}k_{1}^{2}\right)\exp\left[-s^{2}\right].\label{eq:C_1_1}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We may use
+\begin_inset Formula 
+\begin{eqnarray}
+\int_{l}^{\infty}ds\,s^{2}\exp\left[-s^{2}\right] & = & \left\{ \left(-\frac{d}{d\lambda}\right)\int_{l}^{\infty}ds\,\exp\left[-\lambda s^{2}\right]\right\} _{\lambda=1}\nonumber \\
+ & = & \left\{ \left(-\frac{d}{d\lambda}\right)\lambda^{-1/2}\int_{\lambda^{1/2}l}^{\infty}du\,\exp\left[-u^{2}\right]\right\} _{\lambda=1}\nonumber \\
+ & = & \left\{ \frac{1}{2}\lambda^{-3/2}\int_{\lambda^{1/2}l}^{\infty}du\,\exp\left[-u^{2}\right]+\frac{1}{2}\lambda^{-1}l\exp\left[-\lambda l^{2}\right]\right\} _{\lambda=1}\nonumber \\
+ & = & \frac{\pi^{1/2}}{4}\mathrm{erfc}\left[l\right]+\frac{l}{2}\exp\left[-l^{2}\right],\label{eq:erf2}
+\end{eqnarray}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{eqnarray}
+\int_{l}^{\infty}ds\,s\exp\left[-s^{2}\right] & = & \frac{1}{2}\int_{l^{2}}^{\infty}du\,\exp\left[-u\right]\nonumber \\
+ & = & \frac{1}{2}\exp\left[-l^{2}\right],\label{eq:erf1}
+\end{eqnarray}
+
+\end_inset
+
+and
+\begin_inset Formula 
+\begin{equation}
+\int_{l}^{\infty}ds\,\exp\left[-s^{2}\right]=\frac{\pi^{1/2}}{2}\mathrm{erfc\left[l\right].}\label{erf0}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The result is
+\begin_inset Formula 
+\begin{eqnarray}
+C_{1}(k_{1}) & = & \exp\left[-a\left(1-b^{2}/a^{2}\right)k_{1}^{2}\right]a^{-3/2}\nonumber \\
+ &  & \times\biggl\{\frac{\pi^{1/2}}{4}\mathrm{erfc}\left[a^{-1/2}bk_{1}\right]+\frac{a^{-1/2}bk_{1}}{2}\exp\left[-b^{2}k_{1}^{2}/a\right]\nonumber \\
+ &  & -2a^{-1/2}bk_{1}\times\frac{1}{2}\exp\left[-b^{2}k_{1}^{2}/a\right]+a^{-1}b^{2}k_{1}^{2}\frac{\pi^{1/2}}{2}\mathrm{erfc}\left[a^{-1/2}bk_{1}\right]\biggr\}\nonumber \\
+ & = & \frac{\pi^{1/2}}{4}a^{-3/2}\left(1+2\frac{b^{2}k_{1}^{2}}{a}\right)\exp\left[-a\left(1-b^{2}/a^{2}\right)k_{1}^{2}\right]\mathrm{erfc}\left[a^{-1/2}bk_{1}\right]\nonumber \\
+ &  & -\frac{bk_{1}}{2a^{2}}\times\exp\left[-ak_{1}^{2}\right].\label{eq:C_1_2}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To get an expression for 
+\begin_inset Formula $C_{0}$
+\end_inset
+
+, one could integrate this expression with respect to 
+\begin_inset Formula $k_{1}$
+\end_inset
+
+, but the algebra would be very tedious, and fortunately there's a (slightly)
+ better way.
+ Define
+\begin_inset Formula 
+\begin{equation}
+p(k_{1},k_{2})\equiv k^{T}Pk,\label{eq:p_fn}
+\end{equation}
+
+\end_inset
+
+and the spheroidal coordinates
+\begin_inset Formula 
+\begin{eqnarray}
+R & = & p(k_{1},k_{2})^{1/2}\label{eq:R_coord}\\
+t & = & k_{2}/k_{1}.\label{eq:t_coord}
+\end{eqnarray}
+
+\end_inset
+
+The inverse transformation is easily obtained by 
+\begin_inset Formula $R=p(k_{1},tk_{1})^{1/2}=k_{1}p(1,t)$
+\end_inset
+
+, whence
+\begin_inset Formula 
+\begin{equation}
+k_{1}=Rp(1,t)^{-1/2}.\label{eq:k1_coord}
+\end{equation}
+
+\end_inset
+
+Similarly, 
+\begin_inset Formula $R=p(t^{-1}k_{2},k_{2})^{1/2}=k_{2}p(t^{-1},1)^{1/2}=k_{2}t^{-1}p(1,t)^{1/2}$
+\end_inset
+
+, from which
+\begin_inset Formula 
+\begin{equation}
+k_{2}=Rtp(1,t)^{-1/2}.\label{eq:k2_coord}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The determinant of the Jacobian of the transformation is
+\begin_inset Formula 
+\begin{eqnarray}
+\det J & =\det & \left[\begin{array}{cc}
+p(1,t)^{-1/2} & tp(1,t)^{-1/2}\\
+-Rp(1,t)^{-3/2}\left(at+b\right) & R\left(p(1,t)^{-1/2}-p(1,t)^{-3/2}t(at+b)\right)
+\end{array}\right]\nonumber \\
+ & = & Rp(1,t)^{-2}\det\left[\begin{array}{cc}
+1 & t\\
+-\left(at+b\right) & \left(bt+a\right)
+\end{array}\right]\nonumber \\
+ & = & Rp(1,t)^{-1}.\label{eq:JacDet}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We therefore have
+\begin_inset Formula 
+\begin{eqnarray}
+C_{0} & = & \int_{0}^{\infty}dk_{1}\int_{0}^{\infty}dk_{2}\,k_{1}^{2}k_{2}^{2}\exp\left[-p(k_{1},k_{2})\right]\nonumber \\
+ & = & \int_{0}^{\infty}R^{5}dR\ \exp\left[-R^{2}\right]\times\int_{0}^{\infty}dt\,\frac{t^{2}}{\left(at^{2}+2bt+a\right)^{3}}.\label{eq:C_0_1}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The first integral is
+\begin_inset Formula 
+\begin{eqnarray}
+\int_{0}^{\infty}R^{5}dR\ \exp\left[-R^{2}\right] & = & \frac{1}{2}\int_{0}^{\infty}ds\,s^{2}\exp\left[-s\right]\nonumber \\
+ & = & 1.\label{eq:I1}
+\end{eqnarray}
+
+\end_inset
+
+So we're left with
+\begin_inset Formula 
+\begin{eqnarray}
+C_{0} & = & \int_{0}^{\infty}dt\,\frac{t^{2}}{\left(at^{2}+2bt+a\right)^{3}}\nonumber \\
+ & = & \int_{0}^{\infty}dt\,\frac{t^{2}}{\left((a^{1/2}t+a^{-1/2}b)^{2}+a^{-1}(a^{2}-b^{2})\right)^{3}}.\label{eq:C_0_2}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now substitute 
+\begin_inset Formula $w$
+\end_inset
+
+ for 
+\begin_inset Formula $t$
+\end_inset
+
+, where
+\begin_inset Formula 
+\[
+a^{-1/2}(a^{2}-b^{2})^{1/2}w=a^{1/2}t+a^{-1/2}b
+\]
+
+\end_inset
+
+so that
+\begin_inset Formula 
+\begin{eqnarray*}
+w & = & \left(a^{2}-b^{2}\right){}^{-1/2}\left(at+b\right)\\
+t & = & a^{-1}\left(a^{2}-b^{2}\right)^{1/2}\left[w-\left(a^{2}-b^{2}\right)^{-1/2}b\right].
+\end{eqnarray*}
+
+\end_inset
+
+We then have
+\begin_inset Formula 
+\begin{eqnarray}
+C_{0} & = & \left(a^{2}-b^{2}\right)^{-3/2}\int_{b\left(a^{2}-b^{2}\right)^{-1/2}}^{\infty}dw\,\frac{\left[w-\left(a^{2}-b^{2}\right)^{-1/2}b\right]^{2}}{\left(w^{2}+1\right)^{3}}\nonumber \\
+ & = & \left(a^{2}-b^{2}\right)^{-3/2}I_{2}-2\left(a^{2}-b^{2}\right)^{-2}bI_{1}+\left(a^{2}-b^{2}\right)^{-5/2}b^{2}I_{0},\label{eq:C_0_3}
+\end{eqnarray}
+
+\end_inset
+
+where 
+\begin_inset Formula 
+\begin{equation}
+I_{n}\equiv\int_{b\left(a^{2}-b^{2}\right)^{-1/2}}^{\infty}dw\,\frac{w^{n}}{\left(w^{2}+1\right)^{3}}.\label{eq:I_n}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+With the substitution 
+\begin_inset Formula $w=\tan\psi$
+\end_inset
+
+, and the fact that 
+\begin_inset Formula $\arctan\left[b\left(a^{2}-b^{2}\right)^{-1/2}\right]=\arcsin\left(b/a\right)=\arccos\left[\left(1-b^{2}/a^{2}\right)^{1/2}\right]$
+\end_inset
+
+ we have
+\begin_inset Formula 
+\begin{eqnarray*}
+\frac{w^{2}dw}{\left(w^{2}+1\right)^{3}} & = & \sin^{2}\psi\cos^{2}\psi\,d\psi\\
+ & = & \frac{1}{4}\sin^{2}2\psi\,d\psi\\
+ & = & \frac{1}{8}\left(1-\cos4\psi\right)\,d\psi\\
+ & = & \frac{1}{8}d\left[\psi-\frac{1}{4}\sin4\psi\right]\\
+ & = & \frac{1}{8}d\left[\psi-\frac{1}{2}\sin2\psi\cos2\psi\right]\\
+ & = & \frac{1}{8}d\left[\psi-\sin\psi\cos\psi\left(1-2\sin^{2}\psi\right)\right]
+\end{eqnarray*}
+
+\end_inset
+
+so that
+\begin_inset Formula 
+\begin{eqnarray}
+I_{2} & = & \frac{1}{8}\int_{\psi=\arctan\left[b\left(a^{2}-b^{2}\right)^{-1/2}\right]}^{\psi=\pi/2}d\left[\psi-\sin\psi\cos\psi\left(1-2\sin^{2}\psi\right)\right]\nonumber \\
+ & = & \frac{1}{8}\left\{ \pi/2-\arcsin\left(b/a\right)+\left(b/a\right)\left(1-b^{2}/a^{2}\right)^{1/2}\left(1-2b^{2}/a^{2}\right)\right\} \nonumber \\
+ & = & \frac{1}{8}\left\{ \pi/2-\arcsin\left(b/a\right)+a^{-4}b\left(a^{2}-b^{2}\right)^{1/2}\left(a^{2}-2b^{2}\right)\right\} .\label{eq:I_2}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Similarly,
+\begin_inset Formula 
+\begin{eqnarray*}
+\frac{w\,dw}{\left(w^{2}+1\right)^{3}} & = & \sin\psi\cos^{3}\psi\,d\psi\\
+ & = & \frac{1}{4}\sin2\psi\left(1+\cos2\psi\right)\,d\psi\\
+ & = & \left(\frac{1}{4}\sin2\psi+\frac{1}{8}\sin4\psi\right)\,d\psi\\
+ & = & d\left[-\frac{1}{8}\cos2\psi-\frac{1}{32}\cos4\psi\right]\\
+ & = & -d\left[\frac{1}{8}\left(1-2\sin^{2}\psi\right)+\frac{1}{32}\left(1-2\sin^{2}2\psi\right)\right]\\
+ & = & -d\left[\frac{1}{8}\left(1-2\sin^{2}\psi\right)+\frac{1}{32}\left(1-8\sin^{2}\psi\cos^{2}\psi\right)\right],
+\end{eqnarray*}
+
+\end_inset
+
+so that
+\begin_inset Formula 
+\begin{eqnarray}
+I_{1} & = & \frac{1}{32}\int_{\psi=\arctan\left[b\left(a^{2}-b^{2}\right)^{-1/2}\right]}^{\psi=\pi/2}d\left[-4\left(1-2\sin^{2}\psi\right)-\left(1-8\sin^{2}\psi\cos^{2}\psi\right)\right]\nonumber \\
+ & = & \frac{1}{32}\left\{ 3+4\left(1-2b^{2}/a^{2}\right)+\left(1-8\left(b^{2}/a^{2}\right)\left(1-b^{2}/a^{2}\right)\right)\right\} \nonumber \\
+ & = & \frac{1}{32}\left\{ 8-16b^{2}/a^{2}+8b^{4}/a^{4}\right\} \nonumber \\
+ & = & \frac{1}{4a^{4}}\left\{ a^{4}-2a^{2}b^{2}+b^{4}\right\} \nonumber \\
+ & = & \frac{\left(a^{2}-b^{2}\right)^{2}}{4a^{4}}.\label{eq:I_1}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Finally, 
+\begin_inset Formula 
+\begin{eqnarray*}
+\frac{dw}{\left(w^{2}+1\right)^{3}} & = & \cos^{4}\psi\,d\psi\\
+ & = & \frac{1}{4}\left(1+\cos2\psi\right)^{2}d\psi\\
+ & = & \frac{1}{4}\left[1+2\cos2\psi+\frac{1}{2}\left(1+\cos4\psi\right)\right]\,d\psi\\
+ & = & \frac{1}{4}d\left[\frac{3}{2}\psi+\sin2\psi+\frac{1}{8}\sin4\psi\right]\\
+ & = & \frac{1}{4}d\left[\frac{3}{2}\psi+2\sin\psi\cos\psi+\frac{1}{4}\sin2\psi\cos2\psi\right]\\
+ & = & \frac{1}{4}d\left[\frac{3}{2}\psi+2\sin\psi\cos\psi+\frac{1}{2}\sin\psi\cos\psi\left(1-2\sin^{2}\psi\right)\right]\\
+ & = & \frac{1}{4}d\left[\frac{3}{2}\psi+\frac{5}{2}\sin\psi\cos\psi-\sin^{3}\psi\cos\psi\right],
+\end{eqnarray*}
+
+\end_inset
+
+and we find
+\begin_inset Formula 
+\begin{eqnarray}
+I_{0} & = & \frac{1}{4}\int_{\psi=\arctan\left[b\left(a^{2}-b^{2}\right)^{-1/2}\right]}^{\psi=\pi/2}d\left[\frac{3}{2}\psi+\frac{5}{2}\sin\psi\cos\psi-\sin^{3}\psi\cos\psi\right]\nonumber \\
+ & = & \frac{1}{4}\left\{ \frac{3\pi}{4}-\frac{3}{2}\arcsin\left(b/a\right)-\frac{5}{2}\left(b/a\right)\left(1-b^{2}/a^{2}\right)^{1/2}+\left(b/a\right)^{3}\left(1-b^{2}/a^{2}\right)^{1/2}\right\} \nonumber \\
+ & = & \frac{1}{8}\left\{ \frac{3\pi}{2}-3\arcsin\left(b/a\right)-\left(b/a\right)\left(1-b^{2}/a^{2}\right)^{1/2}\left(5-2b^{2}/a^{2}\right)\right\} \nonumber \\
+ & = & \frac{1}{8}\left\{ \frac{3\pi}{2}-3\arcsin\left(b/a\right)-a^{-4}b\left(a^{2}-b^{2}\right)^{1/2}\left(5a^{2}-2b^{2}\right)\right\} .\label{eq:I0}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Final assembly:
+\begin_inset Formula 
+\begin{eqnarray}
+C_{0} & = & \left(a^{2}-b^{2}\right)^{-3/2}\times\frac{1}{8}\left\{ \pi/2-\arcsin\left(b/a\right)+a^{-4}b\left(a^{2}-b^{2}\right)^{1/2}\left(a^{2}-2b^{2}\right)\right\} \nonumber \\
+ &  & -2\left(a^{2}-b^{2}\right)^{-2}b\times\frac{\left(a^{2}-b^{2}\right)^{2}}{4a^{4}}\nonumber \\
+ &  & +\left(a^{2}-b^{2}\right)^{-5/2}b^{2}\times\frac{1}{8}\left\{ \frac{3\pi}{2}-3\arcsin\left(b/a\right)-a^{-4}b\left(a^{2}-b^{2}\right)^{1/2}\left(5a^{2}-2b^{2}\right)\right\} \nonumber \\
+ & = & \frac{1}{8}\left(a^{2}-b^{2}\right)^{-5/2}\left(a^{2}+2b^{2}\right)\left[\frac{\pi}{2}-\arcsin\left(b/a\right)\right]-\frac{b}{2a^{4}}\nonumber \\
+ &  & +\frac{1}{8}\left(a^{2}-b^{2}\right)^{-2}a^{-4}b\left[\left(a^{2}-b^{2}\right)\left(a^{2}-2b^{2}\right)-b^{2}\left(5a^{2}-2b^{2}\right)\right]\nonumber \\
+ & = & \frac{1}{8}\left(a^{2}-b^{2}\right)^{-5/2}\left(a^{2}+2b^{2}\right)\left[\frac{\pi}{2}-\arcsin\left(b/a\right)\right]-\frac{b}{2a^{4}}\nonumber \\
+ &  & +\frac{1}{8}\left(a^{2}-b^{2}\right)^{-2}a^{-4}b\left[a^{4}-8a^{2}b^{2}+4b^{4}\right]\nonumber \\
+ & = & \frac{1}{8}\left(a^{2}-b^{2}\right)^{-5/2}\left(a^{2}+2b^{2}\right)\left[\frac{\pi}{2}-\arcsin\left(b/a\right)\right]\nonumber \\
+ &  & +\frac{1}{8}\left(a^{2}-b^{2}\right)^{-2}a^{-4}b\left[a^{4}-8a^{2}b^{2}+4b^{2}-4\left(a^{2}-b^{2}\right)^{2}\right]\nonumber \\
+ & = & \frac{1}{8}\left(a^{2}-b^{2}\right)^{-5/2}\left(a^{2}+2b^{2}\right)\left[\frac{\pi}{2}-\arcsin\left(b/a\right)\right]+\frac{1}{8}\left(a^{2}-b^{2}\right)^{-2}a^{-4}b\left[-3a^{4}\right]\nonumber \\
+ & = & \frac{1}{8}\left(a^{2}-b^{2}\right)^{-5/2}\left(a^{2}+2b^{2}\right)\left[\frac{\pi}{2}-\arcsin\left(b/a\right)\right]-\frac{3}{8}\left(a^{2}-b^{2}\right)^{-2}b.\label{eq:C0_final}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
