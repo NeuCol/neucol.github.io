@@ -124,9 +124,6 @@ class Norm2ConstrainedMean(Mean):
         self.C0 = C0
         self.norm_val = norm_val
 
-        self.sigma = 0.0
-        self.gamma = 0.0
-
 #################
     def forward(self, input):
 
@@ -437,7 +434,7 @@ class Norm2ConstrainedContainer_ConvexCombination(Norm2ConstrainedContainer):
         
         nkernels = len(kernels)
         self.register_parameter("raw_compositions", 
-                            parameter=torch.nn.Parameter(torch.zeros(*self.batch_shape, nkernels)))
+                            parameter=torch.nn.Parameter(torch.zeros(*self.batch_shape, nkernels-1)))
         comp_constraint = SimplexConstraint()
         self.register_constraint("raw_compositions", comp_constraint)
 
@@ -453,13 +450,19 @@ class Norm2ConstrainedContainer_ConvexCombination(Norm2ConstrainedContainer):
             value = torch.as_tensor(value).to(self.raw_compositions)
         self.initialize(raw_compositions=self.raw_compositions_constraint.inverse_transform(value))
 
+    @property
+    def full_compositions(self):
+        c = self.raw_compositions_constraint.transform(self.raw_compositions)
+        c = torch.cat((c, 1 - c.sum(dim=-1, keepdims=True)))
+        return c
+
 
 #################
     def base_kernel_eval(self, z1, z2):
 
         ret = 0
-        for kernel in self.kernels:
-            ret = ret + kernel.base_kernel_eval(z1, z2)
+        for ik, kernel in enumerate(self.kernels):
+            ret = ret + kernel.base_kernel_eval(z1, z2) * self.full_compositions[ik]
         return ret
     
 
@@ -467,14 +470,14 @@ class Norm2ConstrainedContainer_ConvexCombination(Norm2ConstrainedContainer):
     def C1(self, x):
 
         ret = 0
-        for kernel in self.kernels:
-            ret = ret + kernel.C1(x)
+        for ik, kernel in enumerate(self.kernels):
+            ret = ret + kernel.C1(x) * self.full_compositions[ik]
         return ret
 
 #################
     def C0(self):
 
         ret = 0
-        for kernel in self.kernels:
-            ret = ret + kernel.C0()
+        for ik, kernel in enumerate(self.kernels):
+            ret = ret + kernel.C0() * self.full_compositions[ik]
         return ret
