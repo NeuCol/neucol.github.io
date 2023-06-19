@@ -1,0 +1,104 @@
+\documentclass[a4paper,12pt,]{article} 
+%\usepackage{axodraw}
+%\usepackage{axodraw4j}
+\usepackage{slashed}
+\usepackage{pstricks}
+\usepackage{color}
+\usepackage{amsmath, amssymb, graphics}
+%\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage{epsfig}
+%\usepackage{fancyvrb}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{pstricks}
+\usepackage{amssymb}  %   MATH
+\usepackage{amsmath}  %   MATH
+\usepackage{latexsym} %   MATH
+\usepackage{amsthm}   %   MATH
+\addtolength{\hoffset}{-1.5cm}
+\textwidth 480 pt
+%\newcommand{\mathsym}[1]{{}}
+%\newcommand{\unicode}{{}}
+\begin{document}
+%
+%
+\title{Stochastic Reconfiguration}
+\maketitle
+
+The trial wave function $| \Psi_T \rangle $ is parametrized in terms of a set of variational parameters $\mathbf{p} = \{ p_1,\dots,p_n\}$. Their optimal values are found minimizing the energy expectation value
+\begin{equation}
+E_T = \frac{ \langle \Psi_T | H | \Psi_T \rangle }{\langle \Psi_T  | \Psi_T \rangle} \geq E_0\, ,
+\end{equation}
+where $E_0$ is the true ground-state of the system. Standard steepest descent methods are proven to be highly inefficient when the Metropolis algorithm is employed to evaluate $E_T$ and exhibit an impractically slow convergence. An alternative algorithm has been devised by noting that iterating the equation
+\begin{align}
+|\Psi(\tau+\delta \tau)\rangle= (1-\mathcal{H}\delta\tau) | \Psi(\tau)\rangle\, 
+\end{align}
+would converge to the ground-state of the system. We can take $|\Psi(\tau)\rangle =  |\Psi_{p_0}\rangle$  where $|\Psi_{p_0}\rangle = |\Psi_T(\mathbf{p} = \mathbf{p}_0)\rangle $ is the trial wave function evaluated for a given set of parameters ${\bf p}_0$. We then approximate $|\Psi(\tau+\delta\tau)\rangle$ with a linear combination of the original wave function and its derivatives with respect to the variational parameters
+\begin{align}
+(1-\mathcal{H}\delta \tau) |\Psi_{p_0}\rangle = \Delta p_0 |\Psi_{p_0}\rangle + \sum_n \Delta p_n \mathcal{O}^n |\Psi_{p_0}\rangle\, ,
+\label{eq:im_time}
+\end{align}
+where we defined
+\begin{equation}
+\mathcal{O}^n |\Psi_{p_0} \rangle = \frac{\partial }{\partial p_n} | \Psi_T \rangle \Big|_{\bf{p} = \bf {p}_0}
+\end{equation}
+
+To obtain the coefficients $\Delta p_0$ and $\Delta p_n$ it is convenient to multiply Eq.~\eqref{eq:im_time} by  $\langle \Psi_{p_0}|\mathcal{O}^m$ and divide by $ \langle \Psi_{p_0}|\Psi_{p_0} \rangle$
+\begin{align}
+\frac{\langle \Psi_{p_0}|\mathcal{O}^m (1-\mathcal{H}\delta \tau) |\Psi_{p_0}\rangle }{\langle \Psi_{p_0}|\Psi_{p_0}\rangle}= \Delta p_0 \frac{ \langle \Psi_{p_0}|\mathcal{O}^m |\Psi_{p_0}\rangle }{\langle \Psi_{p_0}|\Psi_{p_0}\rangle} + \sum_n\Delta p_n \frac{ \langle \Psi_{p_0}|\mathcal{O}^m \mathcal{O}^n|\Psi_{p_0}\rangle }{\langle \Psi_{p_0}|\Psi_{p_0}\rangle}
+\end{align}
+
+We separately consider the cases corresponding to $m=0$ and $m\neq 0$ and introduce the notation $\langle \mathcal{O} \rangle = \langle \Psi_{p_0}|\mathcal{O}|\Psi_{p_0}\rangle / \langle \Psi_{p_0}|\Psi_{p_0}\rangle$ :
+\begin{align}
+\langle 1-\mathcal{H}\delta \tau \rangle =& \Delta p_0 +\sum_n \Delta p_n \langle \mathcal{O}^n \rangle \ \ \ \ m=0\,\\
+\langle \mathcal{O}^m \rangle - \langle \mathcal{O}^m \mathcal{H}\rangle \delta \tau=& \Delta p_0 \langle \mathcal{O}^m \rangle + \sum_n \Delta p_n \langle \mathcal{O}^m \mathcal{O}^n \rangle \ \ \ \ m\neq 0
+\end{align}
+
+We isolate $\Delta p_0$ from the first line and substitute its expression into in the second one
+\begin{align} 
+\Delta p_0 =& 1 -\langle \mathcal H \rangle \delta \tau -\sum_n \Delta p_n \langle \mathcal {O}^n \rangle\,\nonumber \\
+[ \langle \mathcal{H}\rangle \langle \mathcal{O}^m \rangle - \langle \mathcal{O}^m \mathcal{H}\rangle] \delta \tau=& \sum_n \Delta p_n\Big[ \langle \mathcal{O}^m \mathcal{O}^n \rangle - \langle \mathcal{O}^m \rangle \langle \mathcal{O}^n \rangle \Big]
+\label{eq:SR_system}
+\end{align}
+
+Introducing
+\begin{align}
+\mathcal{S}^{mn} =& \langle \mathcal{O}^m \mathcal{O}^n \rangle - \langle \mathcal{O}^m \rangle \langle \mathcal{O}^n \rangle \, \\
+\mathcal{F}^m =& [\langle \mathcal{H}\rangle \langle \mathcal{O}^m \rangle - \langle \mathcal{O}^m \mathcal{H}\rangle]   \delta \tau
+\end{align}
+the above equation can be cast in the form
+\begin{align}
+\sum \Delta p_n  \mathcal{S}^{mn} = \mathcal{F}^m 
+\end{align}
+We usually employ the Cholesky decomposition algorithm to solve the above equation for  $\Delta p_n$ and use them to obtain $\Delta p_0$ from the first line of Eq.~\eqref{eq:SR_system}. Finally, we rescale $\Delta p_n$ as 
+\begin{align}
+\widetilde{\Delta} p_n = \frac{ \Delta p_n }{\Delta p_0}
+\end{align}
+so that, using the fact that the wave-function normalization is immaterial, we can identify $(1-\mathcal{H}\delta \tau) |\Psi_{p_0}\rangle$ with the Taylor expansion of the trial wave function evaluated at $\mathbf{p}_0 + \widetilde{\Delta} \mathbf{p}$. 
+
+
+\section{Checks on linear order expansion with the overlap}
+Another test on the convergence of the algorithm can be carried out considering the normalized overlap square
+\begin{equation}
+\frac{|\langle \Psi_{p+ \Delta p} | \Psi_p\rangle|^2 }{\langle \Psi_{p+\Delta p} | \Psi_{p+\Delta p} \rangle \langle \Psi_p | \Psi_p \rangle} = 1 + \mathcal{O}(\Delta p^2)
+\end{equation}
+that can be rewritten as follows
+\begin{align}
+\frac{|\langle \Psi_{p+ \Delta p} | \Psi_p \rangle|^2 }{\langle \Psi_{p+\Delta p} | \Psi_{p+\Delta p} \rangle \langle \Psi_p | \Psi_p\rangle} &=
+\frac{\int dx \Psi_{p+\Delta p} (x) \Psi_{p} (x) }{\int dx |\Psi_{p+\Delta p} (x)|^2} \times \frac{\int dx \Psi_{p+\Delta p} (x) \Psi_{p} (x) }{\int dx |\Psi_{p} (x)|^2}\nonumber\\
+&=\frac{\int dx  |\Psi_{p} (x)|^2 \frac{\Psi_{p+\Delta p} (x)}{ \Psi_{p} (x)} }{\int dx |\Psi_{p} (x)|^2 \frac{|\Psi_{p+\Delta p} (x)|^2}{|\Psi_{p} (x)|^2}}
+\times \frac{\int dx  |\Psi_{p} (x)|^2 \frac{\Psi_{p+\Delta p} (x)}{ \Psi_{p} (x)} }{\int dx |\Psi_{p} (x)|^2}\, .
+\end{align}
+The integrals appearing in last line can be estimated sampling configurations from $|\Psi_p (x)|^2$, using the appropriate re-weighting factors. 
+
+
+
+\bibliographystyle{plain}
+\bibliography{biblio}
+%
+%
+%
+\end{document}
