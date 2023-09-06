@@ -509,7 +509,7 @@ t & = & k_{2}/k_{1}.\label{eq:t_coord}
 \end_inset
 
 The inverse transformation is easily obtained by 
-\begin_inset Formula $R=p(k_{1},tk_{1})^{1/2}=k_{1}p(1,t)$
+\begin_inset Formula $R=p(k_{1},tk_{1})^{1/2}=k_{1}p(1,t)^{1/2}$
 \end_inset
 
 , whence
