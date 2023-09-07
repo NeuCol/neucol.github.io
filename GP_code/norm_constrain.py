@@ -15,12 +15,15 @@ from gpytorch.constraints import Positive, GreaterThan
 ######################################################################
 class Norm2ConstrainedKernel(Kernel):
     r"""
-    Kernel for a GP intended to sample only functions :math:`f(x)` that satisfy an :math:`x^2`-weighted integral normalization condition, that is
+    Kernel for a GP intended to sample only functions :math:`f(x)` that satisfy
+    an :math:`x^2`-weighted integral normalization condition, that is
 
     .. math::
         \int_0^\infty dx\,x^2f(x)=N
 
-    This kernel is built upon a non-stationary base kernel :math:`K(x_1,x_2)=\exp\left[-(x_1-x_2)^2/\sigma^2-(x_1^2+x_2^2)/\gamma_2\right]`, which then has its value along the normalization integral projected away to yield the actual kernel :math:`C(x_1,x_2)`. That is to say,
+    This kernel is built upon a non-stationary base kernel :math:`K(x_1,x_2)`,
+    which then has its value along the normalization integral projected away to
+    yield the actual kernel :math:`C(x_1,x_2)`. That is to say,
 
     .. math::
         C(x_1,x_2)=K(x_1,x_2)-C_1(x_1)C_1(x_2)/C_0
@@ -34,12 +37,21 @@ class Norm2ConstrainedKernel(Kernel):
         C_2(x)\equiv \int_0^\infty dx\, C_1(x)
     \end{align}
 
-    This form may be derived by treating the normalization condition (a linear function on the GP) as an observation made from a prior zero-mean GP with kernel :math:`K(x_1,x_2)`, and conditioning on it. The resulting GP has this kernel, and a mean function given by
+    This form may be derived by treating the normalization condition (a linear
+    function on the GP) as an observation made from a prior zero-mean GP with
+    kernel :math:`K(x_1,x_2)`, and conditioning on it. The resulting GP has
+    this kernel, and a mean function given by
 
     .. math::
         \mu(x)=(C_1(x)/C_0) * N
 
-    The corresponding mean function is completely determined by the kernel and its hyperparameters. So we instantiate this class and the mean class together from the container class that subclasses Norm2Constrained_Container, which is in charge of registering parameters, and passing them to this instance through the arguments to __init__ of both mean and covariance. In other words, it's probably a bad idea to create a stand-alone instance of this class.
+    The corresponding mean function is completely determined by the kernel and
+    its hyperparameters. So we instantiate this class and the mean class
+    together from the container class that subclasses
+    Norm2Constrained_Container, which is in charge of registering parameters,
+    and passing them to this instance through the arguments to __init__ of both
+    mean and covariance. In other words, it's probably a bad idea to create a
+    stand-alone instance of this class.
 
     Note that this is a 1-d model only. Also, it is non-stationary.
 
@@ -102,7 +114,8 @@ class Norm2ConstrainedMean(Mean):
         C_2(x)\equiv \int_0^\infty dx\, C_1(x)
         \end{align}
     
-    where :math:`N` is the desired integral normalization of :math:`\mu(x)` and of all the functions sampled by this process, weighted by :math:`x^2`.
+    where :math:`N` is the desired integral normalization of :math:`\mu(x)` and
+    of all the functions sampled by this process, weighted by :math:`x^2`.
 
     :param C1: Function that computes the integral of the base kernel over one of its arguments.
     :type C1: callable
@@ -111,9 +124,18 @@ class Norm2ConstrainedMean(Mean):
     :param norm_val: (Default: 1.0) Desired integral normalization.
     :type norm_val: float, optional
 
-    This mean function is completely determined by the corresponding kernel and its hyperparameters. So we instantiate this class and the kernel class together from the container class that subclasses Norm2Constrained_Container, which is in charge of registering parameters, and passing them to this instance through the arguments to __init__ of both mean and covariance. In other words, it's probably a bad idea to create a stand-alone instance of this class.
+    This mean function is completely determined by the corresponding kernel and
+    its hyperparameters. So we instantiate this class and the kernel class
+    together from the container class that subclasses
+    Norm2Constrained_Container, which is in charge of registering parameters,
+    and passing them to this instance through the arguments to __init__ of both
+    mean and covariance. In other words, it's probably a bad idea to create a
+    stand-alone instance of this class.
 
-    This mean has no independent learned parameters. The corresponding parameters from the accompanying kernel model should be assigned as attributes.
+    This mean has no independent learned parameters. The corresponding
+    parameters from the accompanying kernel model should be assigned as
+    attributes.
+
     """
 #################
     def __init__(self, C1, C0, norm_val=1.0, **kwargs):
@@ -136,14 +158,19 @@ class Norm2ConstrainedMean(Mean):
 ######################################################################
 class Norm2ConstrainedContainer(Module):
     r"""
-    Class for instantiating a Norm2ConstrainedKernel and a Norm2ConstrainedMean, and sharing the relevant parameters with them through the closed-form functions base_kernel_eval, C1, and C0, which are the base kernel, its integral over one argument, and its integral over both arguments, respectively.  Subclass this and overwrite base_kernel, C1, and C0 with appropriate functions.
+    Class for instantiating a Norm2ConstrainedKernel and a
+    Norm2ConstrainedMean, and sharing the relevant parameters with them through
+    the closed-form functions base_kernel_eval, C1, and C0, which are the base
+    kernel, its integral over one argument, and its integral over both
+    arguments, respectively. Subclass this and overwrite base_kernel, C1, and
+    C0 with appropriate functions.
 
     :param norm_val: (Default: 1.0) Desired integral normalization.
     :type norm_val: float, optional
 
     """
 
-    def __init__(self, norm_val, batch_shape = None, **kwargs):
+    def __init__(self, norm_val=1.0, batch_shape = None, **kwargs):
 
         super(Norm2ConstrainedContainer, self).__init__(**kwargs)
 
@@ -173,13 +200,15 @@ class Norm2ConstrainedContainer(Module):
 ######################################################################
 class Norm2ConstrainedContainer_SE(Norm2ConstrainedContainer):
     r"""
-    A Norm2-constrained model based on a tapered SE base kernel. That is, the base kernel is :math:`K(x_1,x_2)=A \times \exp(-(x_1^2-x_2^2)/\gamma^2 - (x_1-x_2)^2/\sigma^2)`
+    A Norm2-constrained model based on a tapered SE base kernel. That is, the
+    base kernel is :math:`K(x_1,x_2)=A \times \exp(-(x_1^2-x_2^2)/\gamma^2 -
+    (x_1-x_2)^2/\sigma^2)`
 
     :param norm_val: (Default: 1.0) Desired integral normalization.
     :type norm_val: float, optional
     """
 
-    def __init__(self, norm_val, **kwargs):
+    def __init__(self, norm_val=1.0, **kwargs):
         super(Norm2ConstrainedContainer_SE, self).__init__(norm_val, **kwargs)
 
         self.register_parameter("raw_sigma", 
@@ -264,7 +293,9 @@ class Norm2ConstrainedContainer_SE(Norm2ConstrainedContainer):
 ######################################################################
 class Norm2ConstrainedContainer_rational(Norm2ConstrainedContainer):
     r"""
-    A Norm2-constrained model based on a rational base kernel of the form ::math::`K(x_1,x_2)=A/(x_1+x_2+\alpha)^p`, with :math:`p>6.0` to ensure that the :math:`x^2`-weighted normalization is finite.
+    A Norm2-constrained model based on a rational base kernel of the form
+    ::math::`K(x_1,x_2)=A/(x_1+x_2+\alpha)^p`, with :math:`p>6.0` to ensure
+    that the :math:`x^2`-weighted normalization is finite.
     
     :param norm_val: (Default: 1.0) Desired integral normalization.
     :type norm_val: float, optional
@@ -343,7 +374,9 @@ class Norm2ConstrainedContainer_rational(Norm2ConstrainedContainer):
 ######################################################################
 class SimplexConstraint(Module):
     r"""
-    Constraint that forces an n-parameter vector c to live on an n+1-simplex, so that torch.all(c>=0) is True and c.sum()<1.0.  The constraint operates by exploiting Aitchison-style centered log variable as raw variables.
+    Constraint that forces an n-parameter vector c to live on an n+1-simplex,
+    so that torch.all(c>=0) is True and c.sum()<1.0. The constraint operates by
+    exploiting Aitchison-style centered log variable as raw variables.
 
     """
 
@@ -422,11 +455,13 @@ class Norm2ConstrainedContainer_ConvexCombination(Norm2ConstrainedContainer):
     """
 
 #################
-    def __init__(self, kernels, norm_val=1.0):
+    def __init__(self, kernels, norm_val=1.0, **kwargs):
 
-        super(Norm2ConstrainedContainer_ConvexCombination, self).__init__(norm_val)
+        super(Norm2ConstrainedContainer_ConvexCombination, self).__init__(norm_val, **kwargs)
 
         for kernel in kernels:
+            if not isinstance(kernel, Norm2ConstrainedContainer):
+                raise ValueError("Subkernel not a Norm2ConstrainedContainer instance")
             if kernel.mean_module.norm_val != norm_val:
                 raise ValueError("Inconsistent normalizations")
 

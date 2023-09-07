@@ -266,16 +266,12 @@ reference "eq:K"
 \begin_inset Formula $K(\cdot,\cdot)$
 \end_inset
 
- is just 
-\begin_inset Formula $C(\cdot,\cdot)$
+ has a zero eigenvalue, which corresponds to an eigenfunction that is constant,
+ assuming the measure 
+\begin_inset Formula $k^{2}dk$
 \end_inset
 
- with the function 
-\begin_inset Formula $C_{1}(k)$
-\end_inset
-
- projected out, so that it has a zero eigenvalue corresponding to this eigenfunc
-tion.
+.
 \end_layout
 
 \begin_layout Standard
