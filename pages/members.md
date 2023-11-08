@@ -28,4 +28,4 @@ subtitle:
 
 ![O'Neal](../assets/images/oneal.jpg){: width="120" } [Jared O'Neal](https://www.anl.gov/profile/jared-p-o-neal): Software Development Specialist, ANL
 
-![Wild](../assets/images/wild.jpg){: width="120" } [Stefan M. Wild](https://wildsm.github.io/): Senior Computational Mathematician, ANL
+![Wild](../assets/images/wild.jpg){: width="120" } [Stefan M. Wild](https://wildsm.github.io/): Senior Computational Mathematician, LBNL
