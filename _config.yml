@@ -22,7 +22,8 @@ navbar-links:
      - Contact: "pages/contact"
   Research:
      - Publications: "pages/publications"
-     - Images: "pages/movies"
+     - Software: "pages/software"
+     - Presentations: "pages/presentations"
 
 # --- Logo --- #
 
