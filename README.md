@@ -1,3 +1,6 @@
+#Using the bibtex to yaml conversion tool: in the directory tools/bibtex2yaml do
+ python3 bibtex2yaml.py <filename.bib> <filename.yml>
+
 
 ## Troubleshooting
 
