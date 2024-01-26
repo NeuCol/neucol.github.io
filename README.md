@@ -1,5 +1,15 @@
-# Using the bibtex to yaml conversion tool: in the directory tools/bibtex2yaml do
- python3 bibtex2yaml.py <filename.bib> <filename.yml>
+# bibtex2yaml - Convert BibTex files to yaml 
+
+
+## Usage
+
+Copy your .bib file to neucol.github.io/tools/bibtex2yaml
+
+use the following command:
+
+   python3 bibtex2yaml.py <filename>.bib <filename>.yml 
+
+you should see a new file <filename.yml> in the directory. Append the generated file to _data/publications.yml
 
 
 ## Troubleshooting
