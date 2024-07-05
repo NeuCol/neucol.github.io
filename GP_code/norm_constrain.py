@@ -398,6 +398,10 @@ class SimplexConstraint(Module):
         r"""
         Go from centered-log to simplex
         """
+        
+        if z == None:
+            return None
+        
         znp1 = -z.sum(dim=-1,keepdim=True)
         c = torch.cat((z,znp1)) # n+1-dimensional, sums to zero
         c = c - c.max() # We're about to exponentiate tmp, scale factor is irrelevant
@@ -411,6 +415,8 @@ class SimplexConstraint(Module):
         r"""
         Go from simplex to centered-log
         """
+        if c == None:
+            return None
 
         if not self.check(c):
             raise ValueError("Invalid simplex parameters")
@@ -468,10 +474,13 @@ class Norm2ConstrainedContainer_ConvexCombination(Norm2ConstrainedContainer):
         self.kernels = ModuleList(kernels)
         
         nkernels = len(kernels)
-        self.register_parameter("raw_compositions", 
-                            parameter=torch.nn.Parameter(torch.zeros(*self.batch_shape, nkernels-1)))
-        comp_constraint = SimplexConstraint()
-        self.register_constraint("raw_compositions", comp_constraint)
+        if nkernels > 1:
+            self.register_parameter("raw_compositions", 
+                                parameter=torch.nn.Parameter(torch.zeros(*self.batch_shape, nkernels-1)))
+            comp_constraint = SimplexConstraint()
+            self.register_constraint("raw_compositions", comp_constraint)
+        else:
+            self.raw_compositions = None
 
 
 #################
@@ -487,6 +496,8 @@ class Norm2ConstrainedContainer_ConvexCombination(Norm2ConstrainedContainer):
 
     @property
     def full_compositions(self):
+        if self.raw_compositions == None:
+            return torch.tensor([1.0])
         c = self.raw_compositions_constraint.transform(self.raw_compositions)
         c = torch.cat((c, 1 - c.sum(dim=-1, keepdims=True)))
         return c
@@ -515,4 +526,58 @@ class Norm2ConstrainedContainer_ConvexCombination(Norm2ConstrainedContainer):
         ret = 0
         for ik, kernel in enumerate(self.kernels):
             ret = ret + kernel.C0() * self.full_compositions[ik]
+        return ret
+
+######################################################################
+class Norm2ConstrainedContainer_KroneckerProduct(Norm2ConstrainedContainer):
+    r"""
+    A Norm2-constrained model based on a base kernel that is a Kronecker product of norm2-constrained kernels, one over each input dimension
+
+    :param kernels: List or tuple of Norm2ConstrainedContainer-encapsulated models
+
+    :param norm_val: (Default: 1.0) Desired integral normalization.
+    :type norm_val: float, optional
+
+    """
+
+#################
+    def __init__(self, kernels, norm_val=1.0, **kwargs):
+        
+        super(Norm2ConstrainedContainer_ConvexCombination, self).__init__(norm_val, **kwargs)
+
+        for kernel in kernels:
+            if not isinstance(kernel, Norm2ConstrainedContainer):
+                raise ValueError("Subkernel not a Norm2ConstrainedContainer instance")
+            kernel.mean_module.norm_val = 1.0
+            
+        self.kernels = ModuleList(kernels)
+        self.ndim = len(self.kernels)
+
+#################
+    def base_kernel_eval(self, z1, z2):
+
+        if z1.shape[-1] != self.ndim or z2.shape[-1] != self.ndim:
+            raise ValueError("Inconsistent dimensions")
+        ret = 1.0
+        for ik, kernel in enumerate(self.kernels):
+            ret = ret * kernel.base_kernel_eval(z1[:,ik], z2[:,ik]) 
+        return ret
+    
+
+#################
+    def C1(self, x):
+
+        if x.shape[-1] != self.ndim:
+            raise ValueError("Inconsistent dimensions")
+        ret = 1.0
+        for ik, kernel in enumerate(self.kernels):
+            ret = ret * kernel.C1(x[:,ik])
+        return ret
+
+#################
+    def C0(self):
+
+        ret = 1.0
+        for kernel in self.kernels:
+            ret = ret * kernel.C0()
         return ret
