@@ -81,20 +81,21 @@ class Norm2ConstrainedKernel(Kernel):
 
         x1_ = x1.clone() ; x2_ = x2.clone()
         if last_dim_is_batch:
-            x1_ = x1_.transpose(-1, -2)
-            x2_ = x2_.transpose(-1, -2)
-        x1_ = x1_.squeeze(-1) ; x2_ = x2_.squeeze(-1) # this is a 1-d kernel
+            # Last 2 dims should be point #, input dimension
+            x1_ = x1_.transpose(-1, -3)
+            x2_ = x2_.transpose(-1, -3)
+        # x1_ = x1_.squeeze(-1) ; x2_ = x2_.squeeze(-1) # this is a 1-d kernel
         
         c0 = self.C0()
         if diag:
-            c1_1 = self.C1(x1_)
-            res = self.base_kernel_eval(x1_, x1_) - c1_1**2/c0
+            c1_1 = self.C1(x1_).squeeze(-1)
+            res = self.base_kernel_eval(x1_, x1_).squeeze(-1) - c1_1**2/c0
         else:
-            x1_ = x1_.unsqueeze(-1)
-            x2_ = x2_.unsqueeze(-2)
-            c1_1 = self.C1(x1_)
-            c1_2 = self.C1(x2_)
-            res = self.base_kernel_eval(x1_, x2_) - c1_1*c1_2 / c0
+            x1_ = x1_.unsqueeze(-2)
+            x2_ = x2_.unsqueeze(-3)
+            c1_1 = self.C1(x1_).squeeze(-1)
+            c1_2 = self.C1(x2_).squeeze(-1)
+            res = self.base_kernel_eval(x1_, x2_).squeeze(-1) - c1_1*c1_2 / c0
         
         return res
 
@@ -147,13 +148,17 @@ class Norm2ConstrainedMean(Mean):
         self.norm_val = norm_val
 
 #################
-    def forward(self, input):
+    def forward(self, input, last_dim_is_batch: bool = False):
 
-        x = input.squeeze(-1)
-        c1 = self.C1(x)
+        # x = input.squeeze(-1)
+        x = input.clone()
+        if last_dim_is_batch:
+            # Last 2 dims should be point #, input dimension
+            x = x.transpose(-1, -3)
+        c1 = self.C1(x).squeeze(-1)
         c0 = self.C0()
         res = c1 * self.norm_val / c0
-        return res    
+        return res
 
 ######################################################################
 class Norm2ConstrainedContainer(Module):
@@ -206,9 +211,13 @@ class Norm2ConstrainedContainer_SE(Norm2ConstrainedContainer):
 
     :param norm_val: (Default: 1.0) Desired integral normalization.
     :type norm_val: float, optional
+    
+    :param fix_amplitude: (Default: False) Instead of declaring an A parameter, fix it to this value
+    :type fix_amplitude: float or boolean, optional
+
     """
 
-    def __init__(self, norm_val=1.0, **kwargs):
+    def __init__(self, norm_val=1.0, fix_amplitude=False, **kwargs):
         super(Norm2ConstrainedContainer_SE, self).__init__(norm_val, **kwargs)
 
         self.register_parameter("raw_sigma", 
@@ -221,10 +230,15 @@ class Norm2ConstrainedContainer_SE(Norm2ConstrainedContainer):
         gamma_constraint = Positive()
         self.register_constraint("raw_gamma", gamma_constraint)
 
-        self.register_parameter("raw_A", 
-                parameter=torch.nn.Parameter(torch.zeros(*self.batch_shape, 1)))
         A_constraint = Positive()
-        self.register_constraint("raw_A", A_constraint)
+        self.fix_amplitude = fix_amplitude
+        if fix_amplitude is False:
+            self.register_parameter("raw_A", 
+                    parameter=torch.nn.Parameter(torch.zeros(*self.batch_shape, 1)))
+            self.register_constraint("raw_A", A_constraint)
+        else:
+            self.raw_A_constraint = A_constraint
+            self.raw_A = A_constraint.inverse_transform(torch.tensor([fix_amplitude]))
 
 #################
     @property
@@ -255,11 +269,17 @@ class Norm2ConstrainedContainer_SE(Norm2ConstrainedContainer):
     def A(self, value):
         if not torch.is_tensor(value):
             value = torch.as_tensor(value).to(self.raw_A)
-        self.initialize(raw_A=self.raw_A_constraint.inverse_transform(value))
+        if self.fix_amplitude is False:
+            self.initialize(raw_A=self.raw_A_constraint.inverse_transform(value))
 
 
 #################
     def base_kernel_eval(self, z1, z2):
+        
+        if z1.shape[-1] != 1 or z2.shape[-1] != 1:
+            # This is a 1-D kernel
+            raise ValueError("Last dimension should be 1 for this 1-D kernel")
+        
         qf = (z1-z2)**2 / self.sigma**2 + (z1**2 + z2**2) / self.gamma**2
         res = self.A * torch.exp(-qf)
         return res
@@ -267,6 +287,11 @@ class Norm2ConstrainedContainer_SE(Norm2ConstrainedContainer):
 
 #################
     def C1(self, x):
+
+        if x.shape[-1] != 1:
+            # This is a 1-D kernel
+            raise ValueError("Last dimension should be 1 for this 1-D kernel")
+
         a = self.sigma**-2 + self.gamma**-2
         b = -self.sigma**-2
         sa = a.sqrt()
@@ -299,9 +324,13 @@ class Norm2ConstrainedContainer_rational(Norm2ConstrainedContainer):
     
     :param norm_val: (Default: 1.0) Desired integral normalization.
     :type norm_val: float, optional
+    
+    :param fix_amplitude: (Default: False) Instead of declaring an A parameter, fix it to this value
+    :type fix_amplitude: float or boolean, optional
+
     """
 
-    def __init__(self, norm_val, **kwargs):
+    def __init__(self, norm_val=1.0, fix_amplitude=False, **kwargs):
         super(Norm2ConstrainedContainer_rational, self).__init__(norm_val, **kwargs)
 
         self.register_parameter("raw_alpha", 
@@ -314,10 +343,15 @@ class Norm2ConstrainedContainer_rational(Norm2ConstrainedContainer):
         p_constraint = GreaterThan(6.0)
         self.register_constraint("raw_p", p_constraint)
 
-        self.register_parameter("raw_A", 
-                parameter=torch.nn.Parameter(torch.zeros(*self.batch_shape, 1)))
         A_constraint = Positive()
-        self.register_constraint("raw_A", A_constraint)
+        self.fix_amplitude = fix_amplitude
+        if fix_amplitude is False:
+            self.register_parameter("raw_A", 
+                    parameter=torch.nn.Parameter(torch.zeros(*self.batch_shape, 1)))
+            self.register_constraint("raw_A", A_constraint)
+        else:
+            self.raw_A_constraint = A_constraint
+            self.raw_A = A_constraint.inverse_transform(torch.tensor([fix_amplitude]))
 
 #################
     @property
@@ -348,10 +382,15 @@ class Norm2ConstrainedContainer_rational(Norm2ConstrainedContainer):
     def A(self, value):
         if not torch.is_tensor(value):
             value = torch.as_tensor(value).to(self.raw_A)
-        self.initialize(raw_A=self.raw_A_constraint.inverse_transform(value))
+        if self.fix_amplitude is False:
+            self.initialize(raw_A=self.raw_A_constraint.inverse_transform(value))
 
 #################
     def base_kernel_eval(self, z1, z2):
+
+        if z1.shape[-1] != 1 or z2.shape[-1] != 1:
+            # This is a 1-D kernel
+            raise ValueError("Last dimension should be 1 for this 1-D kernel")
 
         ret = self.A * (z1 + z2 + self.alpha)**-self.p
         return ret
@@ -359,6 +398,10 @@ class Norm2ConstrainedContainer_rational(Norm2ConstrainedContainer):
 
 #################
     def C1(self, x):
+
+        if x.shape[-1] != 1:
+            # This is a 1-D kernel
+            raise ValueError("Last dimension should be 1 for this 1-D kernel")
 
         coef_1 = 2 * torch.exp(gammaln(self.p-3) - gammaln(self.p))
         ret = self.A * coef_1 * (x + self.alpha)**-(self.p-3)
@@ -369,6 +412,103 @@ class Norm2ConstrainedContainer_rational(Norm2ConstrainedContainer):
 
         coef_0 = 4 * torch.exp(gammaln(self.p-6) - gammaln(self.p))
         ret = self.A * coef_0 * (self.alpha)**-(self.p-6)
+        return ret
+
+######################################################################
+class Norm2ConstrainedContainer_rational_cubic(Norm2ConstrainedContainer):
+    r"""
+    A Norm2-constrained model based on a rational base kernel of the form
+    ::math::`K(x_1,x_2)=A/(x_1^3+x_2^3+\alpha)^p`, with :math:`p>2.0` to ensure
+    that the :math:`x^2`-weighted normalization is finite.
+    
+    :param norm_val: (Default: 1.0) Desired integral normalization.
+    :type norm_val: float, optional
+    
+    :param fix_amplitude: (Default: False) Instead of declaring an A parameter, fix it to this value
+    :type fix_amplitude: float or boolean, optional
+
+    """
+
+    def __init__(self, norm_val=1.0, fix_amplitude=False, **kwargs):
+        super(Norm2ConstrainedContainer_rational_cubic, self).__init__(norm_val, **kwargs)
+
+        self.register_parameter("raw_alpha", 
+                parameter=torch.nn.Parameter(torch.zeros(*self.batch_shape, 1)))
+        alpha_constraint = Positive()
+        self.register_constraint("raw_alpha", alpha_constraint)
+
+        self.register_parameter("raw_p", 
+                parameter=torch.nn.Parameter(torch.zeros(*self.batch_shape, 1)))
+        p_constraint = GreaterThan(2.0)
+        self.register_constraint("raw_p", p_constraint)
+
+        A_constraint = Positive()
+        self.fix_amplitude = fix_amplitude
+        if fix_amplitude is False:
+            self.register_parameter("raw_A", 
+                    parameter=torch.nn.Parameter(torch.zeros(*self.batch_shape, 1)))
+            self.register_constraint("raw_A", A_constraint)
+        else:
+            self.raw_A_constraint = A_constraint
+            self.raw_A = A_constraint.inverse_transform(torch.tensor([fix_amplitude]))
+
+#################
+    @property
+    def alpha(self):
+        return self.raw_alpha_constraint.transform(self.raw_alpha)
+
+    @alpha.setter
+    def alpha(self, value):
+        if not torch.is_tensor(value):
+            value = torch.as_tensor(value).to(self.raw_alpha)
+        self.initialize(raw_alpha=self.raw_alpha_constraint.inverse_transform(value))
+
+    @property
+    def p(self):
+        return self.raw_p_constraint.transform(self.raw_p)
+    
+    @p.setter
+    def p(self, value):
+        if not torch.is_tensor(value):
+            value = torch.as_tensor(value).to(self.raw_p)
+        self.initialize(raw_p=self.raw_p_constraint.inverse_transform(value))
+
+    @property
+    def A(self):
+        return self.raw_A_constraint.transform(self.raw_A)
+
+    @A.setter
+    def A(self, value):
+        if not torch.is_tensor(value):
+            value = torch.as_tensor(value).to(self.raw_A)
+        if self.fix_amplitude is False:
+            self.initialize(raw_A=self.raw_A_constraint.inverse_transform(value))
+
+#################
+    def base_kernel_eval(self, z1, z2):
+
+        if z1.shape[-1] != 1 or z2.shape[-1] != 1:
+            # This is a 1-D kernel
+            raise ValueError("Last dimension should be 1 for this 1-D kernel")
+
+        ret = self.A * (z1**3 + z2**3 + self.alpha)**-self.p
+        return ret
+    
+
+#################
+    def C1(self, x):
+
+        if x.shape[-1] != 1:
+            # This is a 1-D kernel
+            raise ValueError("Last dimension should be 1 for this 1-D kernel")
+
+        ret = ( self.A / (3*(self.p-1) ) ) * (x**3 + self.alpha)**-(self.p-1)
+        return ret
+
+#################
+    def C0(self):
+
+        ret = ( self.A / (9*(self.p-2)*(self.p-1)) ) * (self.alpha)**-(self.p-2)
         return ret
 
 ######################################################################
@@ -543,7 +683,7 @@ class Norm2ConstrainedContainer_KroneckerProduct(Norm2ConstrainedContainer):
 #################
     def __init__(self, kernels, norm_val=1.0, **kwargs):
         
-        super(Norm2ConstrainedContainer_ConvexCombination, self).__init__(norm_val, **kwargs)
+        super(Norm2ConstrainedContainer_KroneckerProduct, self).__init__(norm_val, **kwargs)
 
         for kernel in kernels:
             if not isinstance(kernel, Norm2ConstrainedContainer):
@@ -560,7 +700,7 @@ class Norm2ConstrainedContainer_KroneckerProduct(Norm2ConstrainedContainer):
             raise ValueError("Inconsistent dimensions")
         ret = 1.0
         for ik, kernel in enumerate(self.kernels):
-            ret = ret * kernel.base_kernel_eval(z1[:,ik], z2[:,ik]) 
+            ret = ret * kernel.base_kernel_eval(z1[...,[ik]], z2[...,[ik]]) 
         return ret
     
 
@@ -571,7 +711,7 @@ class Norm2ConstrainedContainer_KroneckerProduct(Norm2ConstrainedContainer):
             raise ValueError("Inconsistent dimensions")
         ret = 1.0
         for ik, kernel in enumerate(self.kernels):
-            ret = ret * kernel.C1(x[:,ik])
+            ret = ret * kernel.C1(x[...,[ik]])
         return ret
 
 #################
