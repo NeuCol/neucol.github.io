@@ -3,6 +3,46 @@
 
 - author:
   - name: Bothmann, Enrico
+  - name: Campbell, John M.
+  - name: "H\xF6che, Stefan"
+  - name: Knobbe, Max
+  citekey: Bothmann:2024hgq
+  collection: bit
+  id: Bothmann:2024hgq
+  title: Algorithms for numerically stable scattering amplitudes
+  type: article
+  year: '2024'
+
+- author:
+  - name: Nikolakopoulos, Alexis
+  - name: Lovato, Alessandro
+  - name: Rocco, Noemi
+  citekey: Nikolakopoulos:2023zse
+  collection: INSPIRE-Cite-2653689
+  id: Nikolakopoulos:2023zse
+  journal:
+    name: Phys. Rev. C
+    number: '1'
+    pages: '014623'
+    volume: '109'
+  title: Relativistic effects in Green's function Monte Carlo calculations of neutrino-nucleus
+    scattering
+  type: article
+  year: '2024'
+
+- author:
+  - name: Isaacson, Joshua
+  - name: Fu, Yao
+  - name: Yuan, C. -P.
+  citekey: Isaacson:2023iui
+  collection: bit
+  id: Isaacson:2023iui
+  title: Improving ResBos for the precision needs of the LHC
+  type: article
+  year: '2023'
+
+- author:
+  - name: Bothmann, Enrico
   - name: Childers, Taylor
   - name: Giele, Walter
   - name: "H\xF6che, Stefan"
@@ -47,19 +87,3 @@
   type: article
   year: '2021'
 
-- author:
-  - name: Nikolakopoulos, Alexis
-  - name: Lovato, Alessandro
-  - name: Rocco, Noemi
-  citekey: Nikolakopoulos:2023zse
-  collection: INSPIRE-Cite-2653689
-  id: Nikolakopoulos:2023zse
-  journal:
-    name: Phys. Rev. C
-    number: '1'
-    pages: '014623'
-    volume: '109'
-  title: Relativistic effects in Green's function Monte Carlo calculations of neutrino-nucleus
-    scattering
-  type: article
-  year: '2024'
