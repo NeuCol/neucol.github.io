@@ -10,6 +10,8 @@ subtitle:
 
 - A. Lovato, "Neural network quantum states for the nuclear many-body problem," Celebrating 75 Years of the Nuclear Shell Model and Maria Goeppert-Mayer Symposium, July 21, 2024
 
+- A. Dhruv, "MCFM Interface Code Translation using Large Language Models," SciDAC PI Meeting, Rockville, MD, July 17, 2024
+
 - A. Lovato, "Variational learning quantum wave functions," QNP 2024, Barcelona, Spain, July 10, 2024
 
 - A. Lovato, "Uncertainty quantification in nuclear many-body theory," PRISMA Colloquium, University of Mainz, June 26, 2024
