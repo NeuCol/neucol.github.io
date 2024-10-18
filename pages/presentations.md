@@ -6,6 +6,48 @@ subtitle:
 
 # Talks
 
+- A. Lovato, "Solving the nuclear many-body problem with neural quantum states," IAIFI Summer Workshop, August 12, 2024
+
+- A. Lovato, "Neural network quantum states for the nuclear many-body problem," Celebrating 75 Years of the Nuclear Shell Model and Maria Goeppert-Mayer Symposium, July 21, 2024
+
+- A. Lovato, "Variational learning quantum wave functions," QNP 2024, Barcelona, Spain, July 10, 2024
+
+- A. Lovato, "Uncertainty quantification in nuclear many-body theory," PRISMA Colloquium, University of Mainz, June 26, 2024
+
+- A. Lovato, "Variational learning quantum many-body systems," INT, Seattle, WA, April 30, 2024
+
+- A. Lovato, "Nuclei and nuclear matter with neural network quantum states," Workshop on Progress in Ab Initio Nuclear Theory, Vancouver, BC, Canada, February 28, 2024
+
+- A. Lovato, "Variational Learning Quantum Wave Functions," Argonne National Laboratory, February 16, 2024
+  
+- A. Lovato, "Uncertainty quantification in QMC calculations of lepton-nucleus scattering," INT, Seattle, WA, October 31, 2023
+
+- A. Lovato, "Variational Learning Quantum Wave Functions," Michigan State University, September 26, 2023
+
+- A. Lovato, "Solving the quantum many-body problem with neural network quantum states," Data-Intensive Computing & AI/ML Applications at Scale, Aug 17, 2023
+
+- A. Lovato, "Ab-initio nuclear structure with quantum monte Carlo techniques," ECT*, Trento (Italy), July 18, 2023
+
+- A. Lovato, "Quantum monte Carlo for neutrino-nucleus scattering," Neutrino Scattering at Low and Intermediate Energies, Mainz (Germany), June 29, 2023
+  
+- A. Lovato, "Solving the (nuclear) quantum many-body problem with neural networks," EPFL, Lausanne (Switzerland), June 20, 2023
+
+- A. Lovato, "Solving the (nuclear) quantum many-body problem with neural networks," Precision Many-Body Physics 2023, Paris (France), June 13, 2023
+
+- A. Lovato, "Solving the quantum many-body problem with neural networks," Information and Statistics in Nuclear Experiment and Theory (ISNET-9), May 22-26, 2023
+
+- A. Lovato, "Variational learning quantum wave functions," Argonne Mini-Workshop on Monte Carlo Methods, May 18, 2023
+
+- A. Lovato, "Variational learning quantum wave functions," University of Illinois at Urbana Champaign, April 3, 2023
+
+- A. Lovato, "Neural Network Quantum States for Nuclear Physics," 2022 NSAC Long-Range Plan Town Hall Meeting on Nuclear Structure, Reactions and Astrophysics, Nov 14-16, 2022
+
+- A. Lovato, "GFMC studies of neutrino-nucleus scattering," Baryons 2022, Seville, Nov 7-11, 2022
+
+- A. Lovato, "Nuclear inputs needed for neutrinos," SciDAC-HEP, Next Generation Precision for Neutrino and Collider Computations meeting, Fermilab, Oct 3, 2022
+
+- A. Lovato, "Neural network quantum states for nuclear systems," Argonne National Laboratory, Sep 19, 2022
+
 - N. Rocco, Latest from theory models and generators, August 2022, NuFact 2022: The 23 International Workshop on Neutrinos from Accelerators
   
 - N. Rocco, Progress in Neutrino and Electron scattering theory, August 2022, Photonuclear Reactions
