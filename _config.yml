@@ -15,8 +15,8 @@ author: The NeuCol Collaboration
 # --- List of links in the navigation bar --- #
 
 navbar-links:
-  News:
-     - News: "pages/news"
+#  News:
+#  - News: "pages/news"
   The Organization:
      - Members: "pages/members"
      - Contact: "pages/contact"
