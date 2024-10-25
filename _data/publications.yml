@@ -2,6 +2,106 @@
 #
 
 - author:
+  - name: Fox, Jordan M. R.
+  - name: Lovato, Alessandro
+  - name: Roggero, Alessandro
+  - name: Rrapaj, Ermal
+  citekey: Fox:2024mhj
+  collection: lovato
+  id: Fox:2024mhj
+  title: Restricted Boltzmann Machines Propagators for Auxiliary Field Diffusion Monte
+    Carlo
+  type: article
+  year: '2024'
+
+- author:
+  - name: Nikolakopoulos, A.
+  - name: Ershova, A.
+  - name: "Gonz\xE1lez-Jim\\\u0144ez, R."
+  - name: Isaacson, J.
+  - name: Kelly, A. M.
+  - name: Niewczas, K.
+  - name: Rocco, N.
+  - name: "S\\'\u0107hez, F."
+  citekey: Nikolakopoulos:2024mjj
+  collection: lovato
+  id: Nikolakopoulos:2024mjj
+  title: Final-state interactions in neutrino-induced proton knockout from argon in
+    MicroBooNE
+  type: article
+  year: '2024'
+
+- author:
+  - name: Sobczyk, Joanna E.
+  - name: Rocco, Noemi
+  - name: Lovato, Alessandro
+  citekey: Sobczyk:2024ajv
+  collection: lovato
+  id: Sobczyk:2024ajv
+  title: Modeling inclusive electron-nucleus scattering with Bayesian artificial neural
+    networks
+  type: article
+  year: '2024'
+
+- author:
+  - name: Gnech, Alex
+  - name: Lovato, Alessandro
+  - name: Rocco, Noemi
+  citekey: Gnech:2024qru
+  collection: lovato
+  id: Gnech:2024qru
+  title: Static and dynamic properties of atomic nuclei with high-resolution potentials
+  type: article
+  year: '2024'
+
+- author:
+  - name: Tropiano, A. J.
+  - name: Bogner, S. K.
+  - name: Furnstahl, R. J.
+  - name: Hisham, M. A.
+  - name: Lovato, A.
+  - name: Wiringa, R. B.
+  citekey: Tropiano:2024bmu
+  collection: lovato
+  id: Tropiano:2024bmu
+  journal:
+    name: Phys. Lett. B
+    pages: '138591'
+    volume: '852'
+  title: High-resolution momentum distributions from low-resolution wave functions
+  type: article
+  year: '2024'
+
+- author:
+  - name: Lovato, Alessandro
+  - name: Rocco, Noemi
+  - name: Steinberg, Noah
+  citekey: Lovato:2023khk
+  collection: lovato
+  id: Lovato:2023khk
+  title: One and Two-Body Current Contributions to Lepton-Nucleus Scattering
+  type: article
+  year: '2023'
+
+- author:
+  - name: Lovato, Alessandro
+  - name: Nikolakopoulos, Alexis
+  - name: Rocco, Noemi
+  - name: Steinberg, Noah
+  citekey: Lovato:2023raf
+  collection: lovato
+  id: Lovato:2023raf
+  journal:
+    name: Universe
+    number: '8'
+    pages: '367'
+    volume: '9'
+  title: "Lepton\u2013Nucleus Interactions within Microscopic Approaches"
+  type: article
+  year: '2023'
+
+
+- author:
   - name: Bothmann, Enrico
   - name: Campbell, John M.
   - name: "H\xF6che, Stefan"
