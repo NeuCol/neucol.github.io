@@ -187,3 +187,128 @@
   type: article
   year: '2021'
 
+- author:
+  - name: Lambert, Jacob
+  - name: Monil, Mohammad Alaul Haque
+  - name: Lee, Seyong
+  - name: Malony, Allen D.
+  - name: Vetter, Jeffrey S.
+  booktitle: 2022 IEEE/ACM International Workshop on Performance, Portability and
+    Productivity in HPC (P3HPC)
+  citekey: P3HPC22:Lambert
+  collection: paper
+  id: P3HPC22:Lambert
+  number: ''
+  pages: 14--25
+  title: Leveraging Compiler-Based Translation to Evaluate a Diversity of Exascale
+    Platforms
+  type: inproceedings
+  volume: ''
+  year: '2022'
+
+- address: New York, NY, USA
+  author:
+  - name: Fujita, Norihisa
+  - name: Johnston, Beau
+  - name: Kobayashi, Ryohei
+  - name: Teranishi, Keita
+  - name: Lee, Seyong
+  - name: Boku, Taisuke
+  - name: Vetter, Jeffrey S.
+  booktitle: Proceedings of the SC '23 Workshops of The International Conference on
+    High Performance Computing, Network, Storage, and Analysis
+  citekey: RSDHA23:Fujita
+  collection: paper
+  id: RSDHA23:Fujita
+  pages: 1651--1661
+  publisher:
+    address: New York, NY, USA
+    name: Association for Computing Machinery
+  series: SC-W '23
+  title: 'CHARM-SYCL: New Unified Programming Environment for Multiple Accelerator
+    Types'
+  type: inproceedings
+  year: '2023'
+
+- author:
+  - name: Kwok, K. H. M.
+  - name: Kortelainen, Matti J.
+  - name: Cerati, Giuseppe Benedetto
+  - name: Strelchenko, Alexei
+  - name: Gutsche, Oliver
+  - name: Hall, Allison Reinsvold
+  - name: Lantz, Steve
+  - name: Reid, Michael
+  - name: Riley, Daniel
+  - name: Berkman, Sophie
+  - name: Lee, Seyong
+  - name: Ather, Hammad
+  - name: Norris, Boyana
+  - name: Laboratory, Cong Wang Fermi National Accelerator
+  - name: 'Batavia, '
+  - name: 'Il, '
+  - name: Academy, Usa United States Naval
+  - name: 'Annapolis, '
+  - name: 'Md, '
+  - name: University, Usa Cornell
+  - name: 'Ithaca, '
+  - name: 'Ny, '
+  - name: Laboratory, USA. Argonne National
+  - name: Ridge, Oak
+  - name: 'Tn, '
+  - name: Oregon, Usa University of
+  - name: 'Eugene, '
+  - name: 'Or, '
+  - name: 'Usa, '
+  citekey: Kwok2024ApplicationOP
+  collection: paper
+  id: Kwok2024ApplicationOP
+  title: Application of performance portability solutions for GPUs and many-core CPUs
+    to track reconstruction kernels
+  type: article
+  year: '2024'
+
+- author:
+  - name: Valero-Lara, Pedro
+  - name: Lee, Seyong
+  - name: Gonzalez-Tallada, Marc
+  - name: Denny, Joel
+  - name: Teranishi, Keita
+  - name: Vetter, Jeffrey S.
+  citekey: IJHPCA24:ValeroLara
+  collection: paper
+  id: IJHPCA24:ValeroLara
+  journal:
+    name: The International Journal of High Performance Computing Applications
+    number: '5'
+    pages: 409--426
+    volume: '38'
+  title: Enhancing Kokkos with OpenACC
+  type: article
+  year: '2024'
+
+- author:
+  - name: Ather, Hammad
+  - name: Berkman, Sophie
+  - name: Cerati, Giuseppe
+  - name: Kortelainen, Matti
+  - name: Kwok, Ka Hei Martin
+  - name: Lantz, Steven
+  - name: Lee, Seyong
+  - name: Norris, Boyana
+  - name: Reid, Michael
+  - name: Hall, Allison Reinsvold
+  - name: Riley, Daniel
+  - name: Strelchenko, Alexei
+  - name: Wang, Cong
+  citekey: Frontiers24:Ather
+  collection: paper
+  id: Frontiers24:Ather
+  journal:
+    name: Journal of Frontiers in Big Data
+    volume: '7'
+  title: Exploring code portability solutions for HEP with a particle tracking test
+    code
+  type: article
+  year: '2024'
+
