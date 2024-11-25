@@ -7,13 +7,12 @@
   - name: Roggero, Alessandro
   - name: Rrapaj, Ermal
   citekey: Fox:2024mhj
-  collection: lovato
+  collection: midterm
   id: Fox:2024mhj
   title: Restricted Boltzmann Machines Propagators for Auxiliary Field Diffusion Monte
     Carlo
   type: article
   year: '2024'
-
 - author:
   - name: Nikolakopoulos, A.
   - name: Ershova, A.
@@ -24,36 +23,33 @@
   - name: Rocco, N.
   - name: "S\\'\u0107hez, F."
   citekey: Nikolakopoulos:2024mjj
-  collection: lovato
+  collection: midterm
   id: Nikolakopoulos:2024mjj
   title: Final-state interactions in neutrino-induced proton knockout from argon in
     MicroBooNE
   type: article
   year: '2024'
-
 - author:
   - name: Sobczyk, Joanna E.
   - name: Rocco, Noemi
   - name: Lovato, Alessandro
   citekey: Sobczyk:2024ajv
-  collection: lovato
+  collection: midterm
   id: Sobczyk:2024ajv
   title: Modeling inclusive electron-nucleus scattering with Bayesian artificial neural
     networks
   type: article
   year: '2024'
-
 - author:
   - name: Gnech, Alex
   - name: Lovato, Alessandro
   - name: Rocco, Noemi
   citekey: Gnech:2024qru
-  collection: lovato
+  collection: midterm
   id: Gnech:2024qru
   title: Static and dynamic properties of atomic nuclei with high-resolution potentials
   type: article
   year: '2024'
-
 - author:
   - name: Tropiano, A. J.
   - name: Bogner, S. K.
@@ -62,7 +58,7 @@
   - name: Lovato, A.
   - name: Wiringa, R. B.
   citekey: Tropiano:2024bmu
-  collection: lovato
+  collection: midterm
   id: Tropiano:2024bmu
   journal:
     name: Phys. Lett. B
@@ -71,25 +67,47 @@
   title: High-resolution momentum distributions from low-resolution wave functions
   type: article
   year: '2024'
-
+- author:
+  - name: Kopp, Joachim
+  - name: Rocco, Noemi
+  - name: Tabrizi, Zahra
+  citekey: Kopp:2024yvh
+  collection: midterm
+  id: Kopp:2024yvh
+  journal:
+    name: JHEP
+    pages: '187'
+    volume: 08
+  title: Unleashing the power of EFT in neutrino-nucleus scattering
+  type: article
+  year: '2024'
 - author:
   - name: Lovato, Alessandro
   - name: Rocco, Noemi
   - name: Steinberg, Noah
   citekey: Lovato:2023khk
-  collection: lovato
+  collection: midterm
   id: Lovato:2023khk
   title: One and Two-Body Current Contributions to Lepton-Nucleus Scattering
   type: article
   year: '2023'
-
+- author:
+  - name: Gardiner, S.
+  - name: Isaacson, J.
+  - name: Pickering, L.
+  citekey: Gardiner:2023ejq
+  collection: midterm
+  id: Gardiner:2023ejq
+  title: 'NuHepMC: A standardized event record format for neutrino event generators'
+  type: article
+  year: '2023'
 - author:
   - name: Lovato, Alessandro
   - name: Nikolakopoulos, Alexis
   - name: Rocco, Noemi
   - name: Steinberg, Noah
   citekey: Lovato:2023raf
-  collection: lovato
+  collection: midterm
   id: Lovato:2023raf
   journal:
     name: Universe
@@ -99,48 +117,58 @@
   title: "Lepton\u2013Nucleus Interactions within Microscopic Approaches"
   type: article
   year: '2023'
-
-
+- author:
+  - name: Isaacson, Joshua
+  - name: "H\xF6che, Stefan"
+  - name: Siegert, Frank
+  - name: Wang, Sherry
+  citekey: Isaacson:2023gwp
+  collection: midterm
+  id: Isaacson:2023gwp
+  journal:
+    name: Phys. Rev. D
+    number: '9'
+    pages: 093004
+    volume: '108'
+  title: Tau polarization and correlated decays in neutrino experiments
+  type: article
+  year: '2023'
+- author:
+  - name: Bigaran, Innes
+  - name: Isaacson, Joshua
+  - name: Kim, Taegyun
+  - name: Tame-Narvaez, Karla
+  citekey: Bigaran:2024tmp
+  collection: midterm
+  id: Bigaran:2024tmp
+  title: Leveraging intermediate resonances to probe CP violation at colliders
+  type: article
+  year: '2024'
+- author:
+  - name: Bothmann, Enrico
+  - name: 'others, '
+  citekey: Sherpa:2024mfk
+  collection: midterm
+  id: Sherpa:2024mfk
+  title: Event generation with Sherpa 3
+  type: article
+  year: '2024'
 - author:
   - name: Bothmann, Enrico
   - name: Campbell, John M.
   - name: "H\xF6che, Stefan"
   - name: Knobbe, Max
   citekey: Bothmann:2024hgq
-  collection: bit
+  collection: midterm
   id: Bothmann:2024hgq
+  journal:
+    name: Phys. Rev. D
+    number: '7'
+    pages: L071501
+    volume: '110'
   title: Algorithms for numerically stable scattering amplitudes
   type: article
   year: '2024'
-
-- author:
-  - name: Nikolakopoulos, Alexis
-  - name: Lovato, Alessandro
-  - name: Rocco, Noemi
-  citekey: Nikolakopoulos:2023zse
-  collection: INSPIRE-Cite-2653689
-  id: Nikolakopoulos:2023zse
-  journal:
-    name: Phys. Rev. C
-    number: '1'
-    pages: '014623'
-    volume: '109'
-  title: Relativistic effects in Green's function Monte Carlo calculations of neutrino-nucleus
-    scattering
-  type: article
-  year: '2024'
-
-- author:
-  - name: Isaacson, Joshua
-  - name: Fu, Yao
-  - name: Yuan, C. -P.
-  citekey: Isaacson:2023iui
-  collection: bit
-  id: Isaacson:2023iui
-  title: Improving ResBos for the precision needs of the LHC
-  type: article
-  year: '2023'
-
 - author:
   - name: Bothmann, Enrico
   - name: Childers, Taylor
@@ -149,44 +177,114 @@
   - name: Isaacson, Joshua
   - name: Knobbe, Max
   citekey: Bothmann:2023gew
-  collection: refs
+  collection: midterm
   id: Bothmann:2023gew
+  journal:
+    name: SciPost Phys.
+    pages: 081
+    volume: '17'
   title: A Portable Parton-Level Event Generator for the High-Luminosity LHC
   type: article
-  year: '2023'
-
+  year: '2024'
 - author:
-  - name: Lovato, Alessandro
-  - name: Nikolakopoulos, Alexis
-  - name: Rocco, Noemi
-  - name: Steinberg, Noah
-  citekey: Lovato:2023raf
-  collection: refs
-  id: Lovato:2023raf
+  - name: Campbell, John M.
+  - name: De Laurentis, Giuseppe
+  - name: Ellis, R. Keith
+  citekey: Campbell:2024tqg
+  collection: midterm
+  id: Campbell:2024tqg
   journal:
-    name: Universe
-    number: '8'
-    pages: '367'
-    volume: '9'
-  title: "Lepton\u2013Nucleus Interactions within Microscopic Approaches"
+    name: JHEP
+    pages: '230'
+    volume: '10'
+  title: Analytic amplitudes for a pair of Higgs bosons in association with three
+    partons
+  type: article
+  year: '2024'
+- author:
+  - name: Isaacson, Joshua
+  - name: Fu, Yao
+  - name: Yuan, Chien-Peng
+  citekey: Isaacson:2023iui
+  collection: midterm
+  id: Isaacson:2023iui
+  journal:
+    name: Phys. Rev. D
+    number: '7'
+    pages: '073002'
+    volume: '110'
+  title: Improving Resbos for the precision needs of the LHC
+  type: article
+  year: '2024'
+- author:
+  - name: Herwig, Christian
+  - name: Isaacson, Joshua
+  - name: Jayatilaka, Bo
+  - name: Machado, Pedro A. N.
+  - name: Reinsvold Hall, Allie
+  - name: Safdari, Murtaza
+  citekey: Herwig:2023bnr
+  collection: midterm
+  id: Herwig:2023bnr
+  journal:
+    name: Phys. Rev. D
+    number: '7'
+    pages: 075049
+    volume: '109'
+  title: Shedding light on the MiniBooNE excess with searches at the LHC
+  type: article
+  year: '2024'
+- author:
+  - name: "Darm\xE9, Luc"
+  - name: 'others, '
+  citekey: Darme:2023jdn
+  collection: midterm
+  id: Darme:2023jdn
+  journal:
+    name: Eur. Phys. J. C
+    number: '7'
+    pages: '631'
+    volume: '83'
+  title: 'UFO 2.0: the \textquoteleftUniversal Feynman Output\textquoteright format'
   type: article
   year: '2023'
-
 - author:
-  - name: Dubey, Anshu
-  citekey: dubey2021insights
-  collection: papers
-  id: dubey2021insights
+  - name: Heimel, Theo
+  - name: Winterhalder, Ramon
+  - name: Butter, Anja
+  - name: Isaacson, Joshua
+  - name: Krause, Claudius
+  - name: Maltoni, Fabio
+  - name: Mattelaer, Olivier
+  - name: Plehn, Tilman
+  citekey: Heimel:2022wyj
+  collection: midterm
+  id: Heimel:2022wyj
   journal:
-    name: Computing in Science & Engineering
-    number: '3'
-    pages: 92--95
-    volume: '23'
-  title: Insights From the Software Design of a Multiphysics Multicomponent Scientific
-    Code
+    name: SciPost Phys.
+    number: '4'
+    pages: '141'
+    volume: '15'
+  title: MadNIS - Neural multi-channel importance sampling
   type: article
-  year: '2021'
-
+  year: '2023'
+- author:
+  - name: Bothmann, Enrico
+  - name: Isaacson, Joshua
+  - name: Knobbe, Max
+  - name: "H\xF6che, Stefan"
+  - name: Giele, Walter
+  citekey: Bothmann:2022itv
+  collection: midterm
+  id: Bothmann:2022itv
+  journal:
+    month: '11'
+    name: PoS
+    pages: '222'
+    volume: ICHEP2022
+  title: 'QCD tree amplitudes on modern GPUs: A case study for novel event generators'
+  type: article
+  year: '2022'
 - author:
   - name: Lambert, Jacob
   - name: Monil, Mohammad Alaul Haque
@@ -196,7 +294,7 @@
   booktitle: 2022 IEEE/ACM International Workshop on Performance, Portability and
     Productivity in HPC (P3HPC)
   citekey: P3HPC22:Lambert
-  collection: paper
+  collection: midterm
   id: P3HPC22:Lambert
   number: ''
   pages: 14--25
@@ -205,7 +303,6 @@
   type: inproceedings
   volume: ''
   year: '2022'
-
 - address: New York, NY, USA
   author:
   - name: Fujita, Norihisa
@@ -218,7 +315,7 @@
   booktitle: Proceedings of the SC '23 Workshops of The International Conference on
     High Performance Computing, Network, Storage, and Analysis
   citekey: RSDHA23:Fujita
-  collection: paper
+  collection: midterm
   id: RSDHA23:Fujita
   pages: 1651--1661
   publisher:
@@ -229,7 +326,6 @@
     Types'
   type: inproceedings
   year: '2023'
-
 - author:
   - name: Kwok, K. H. M.
   - name: Kortelainen, Matti J.
@@ -246,13 +342,12 @@
   - name: Norris, Boyana
   - name: Wang, Cong
   citekey: Kwok2024ApplicationOP
-  collection: paper
+  collection: midterm
   id: Kwok2024ApplicationOP
   title: Application of performance portability solutions for GPUs and many-core CPUs
     to track reconstruction kernels
   type: article
   year: '2024'
-
 - author:
   - name: Valero-Lara, Pedro
   - name: Lee, Seyong
@@ -261,7 +356,7 @@
   - name: Teranishi, Keita
   - name: Vetter, Jeffrey S.
   citekey: IJHPCA24:ValeroLara
-  collection: paper
+  collection: midterm
   id: IJHPCA24:ValeroLara
   journal:
     name: The International Journal of High Performance Computing Applications
@@ -271,7 +366,6 @@
   title: Enhancing Kokkos with OpenACC
   type: article
   year: '2024'
-
 - author:
   - name: Ather, Hammad
   - name: Berkman, Sophie
@@ -287,7 +381,7 @@
   - name: Strelchenko, Alexei
   - name: Wang, Cong
   citekey: Frontiers24:Ather
-  collection: paper
+  collection: midterm
   id: Frontiers24:Ather
   journal:
     name: Journal of Frontiers in Big Data
@@ -296,4 +390,21 @@
     code
   type: article
   year: '2024'
-
+- author:
+  - name: Dhruv, Akash
+  citekey: akash_dhruv_2024_13879406
+  collection: midterm
+  id: akash_dhruv_2024_13879406
+  title: 'CodeScribe: 2024.09'
+  type: article
+  year: '2024'
+- author:
+  - name: Dhruv, Akash
+  - name: Dubey, Anshu
+  citekey: dhruv2024leveraginglargelanguagemodels
+  collection: midterm
+  id: dhruv2024leveraginglargelanguagemodels
+  title: Leveraging Large Language Models for Code Translation and Software Development
+    in Scientific Computing
+  type: article
+  year: '2024'
